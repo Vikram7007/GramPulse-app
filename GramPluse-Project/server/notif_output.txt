@@ -1,0 +1,125 @@
+[dotenv@17.2.3] injecting env (4) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+Connected to MongoDB
+--- URGENT NOTIFICATIONS ---
+[
+  {
+    "_id": "69c4e61a6a630f4667c34cc2",
+    "title": "New Task Assigned 📋",
+    "desc": "Admin assigned: \"garbage\". Priority: LOW",
+    "type": "urgent",
+    "read": false,
+    "recipient": "gramSevakNames.rajeshKumar",
+    "assignedTo": "gramSevakNames.rajeshKumar",
+    "sender": "Village Admin",
+    "originalId": "699442f72a8b13327660d39e",
+    "createdAt": "2026-03-26T07:54:02.742Z",
+    "__v": 0
+  },
+  {
+    "_id": "69c4e435b146b0d43d86c41b",
+    "title": "New Task Assigned 📋",
+    "desc": "Admin assigned: \"road\". Priority: MEDIUM",
+    "type": "urgent",
+    "read": false,
+    "recipient": "gramSevakNames.rajeshKumar",
+    "assignedTo": "gramSevakNames.rajeshKumar",
+    "sender": "Village Admin",
+    "originalId": "69c3d5c44b759aeea3f364c0",
+    "createdAt": "2026-03-26T07:45:57.697Z",
+    "__v": 0
+  },
+  {
+    "_id": "69c4e33006e9dcad276f3911",
+    "title": "New Task Assigned 📋",
+    "desc": "Admin assigned: \"road\". Priority: MEDIUM",
+    "type": "urgent",
+    "read": false,
+    "recipient": "gramSevakNames.rajeshKumar",
+    "assignedTo": "gramSevakNames.rajeshKumar",
+    "sender": "Village Admin",
+    "originalId": "69c3d5c44b759aeea3f364c0",
+    "createdAt": "2026-03-26T07:41:36.650Z",
+    "__v": 0
+  },
+  {
+    "_id": "69c4e24c10d0e001b9839de0",
+    "title": "New Task Assigned 📋",
+    "desc": "Admin assigned: \"garbage\". Priority: LOW",
+    "type": "urgent",
+    "read": false,
+    "recipient": "gramSevakNames.rajeshKumar",
+    "assignedTo": "gramSevakNames.rajeshKumar",
+    "sender": "Village Admin",
+    "originalId": "699442f72a8b13327660d39e",
+    "createdAt": "2026-03-26T07:37:48.800Z",
+    "__v": 0
+  }
+]
+
+TOTAL NOTIFICATIONS IN DB: 21
+
+--- LATEST 5 NOTIFICATIONS ---
+[
+  {
+    "_id": "69c4e6ff6a630f4667c34cf3",
+    "title": "New Gram Sabha Notice 📢",
+    "desc": "Notice published: \"utfyt...\" at Gram Panchayat Office",
+    "type": "meeting",
+    "read": true,
+    "recipient": "all",
+    "sender": "Village Admin",
+    "originalId": "69c4e6ff6a630f4667c34cf1",
+    "createdAt": "2026-03-26T07:57:51.786Z",
+    "__v": 0
+  },
+  {
+    "_id": "69c4e6756a630f4667c34cef",
+    "title": "New Gram Sabha Notice 📢",
+    "desc": "Notice published: \"utfyt...\" at Gram Panchayat Office",
+    "type": "meeting",
+    "read": true,
+    "recipient": "all",
+    "sender": "Village Admin",
+    "originalId": "69c4e6756a630f4667c34ced",
+    "createdAt": "2026-03-26T07:55:33.856Z",
+    "__v": 0
+  },
+  {
+    "_id": "69c4e61a6a630f4667c34cc2",
+    "title": "New Task Assigned 📋",
+    "desc": "Admin assigned: \"garbage\". Priority: LOW",
+    "type": "urgent",
+    "read": false,
+    "recipient": "gramSevakNames.rajeshKumar",
+    "assignedTo": "gramSevakNames.rajeshKumar",
+    "sender": "Village Admin",
+    "originalId": "699442f72a8b13327660d39e",
+    "createdAt": "2026-03-26T07:54:02.742Z",
+    "__v": 0
+  },
+  {
+    "_id": "69c4e45bb146b0d43d86c443",
+    "title": "New Gram Sabha Notice 📢",
+    "desc": "Notice published: \"fsffsf...\" at Gram Panchayat Office",
+    "type": "meeting",
+    "read": true,
+    "recipient": "all",
+    "sender": "Village Admin",
+    "originalId": "69c4e45bb146b0d43d86c441",
+    "createdAt": "2026-03-26T07:46:35.429Z",
+    "__v": 0
+  },
+  {
+    "_id": "69c4e435b146b0d43d86c41b",
+    "title": "New Task Assigned 📋",
+    "desc": "Admin assigned: \"road\". Priority: MEDIUM",
+    "type": "urgent",
+    "read": false,
+    "recipient": "gramSevakNames.rajeshKumar",
+    "assignedTo": "gramSevakNames.rajeshKumar",
+    "sender": "Village Admin",
+    "originalId": "69c3d5c44b759aeea3f364c0",
+    "createdAt": "2026-03-26T07:45:57.697Z",
+    "__v": 0
+  }
+]
