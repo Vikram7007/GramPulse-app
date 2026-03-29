@@ -13,6 +13,7 @@ const server = http.createServer(app);
    ALLOWED ORIGINS
 ========================= */
 const allowedOrigins = [
+  "https://gram-pulse-app.vercel.app",
   "https://grampulse-app.vercel.app",
   "http://localhost:5173",
   "http://localhost:5174",
