@@ -16,8 +16,8 @@ import {
 import GramSevakNavbar from '../components/GramSevak/GramSevakNavbar';
 import GramSevakSidebar from '../components/GramSevak/GramSevakSidebar';
 
-const CLOUDINARY_CLOUD_NAME = 'dkwuxbwkn';
-const CLOUDINARY_UPLOAD_PRESET = 'grampulse_unsigned';
+const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
 // ==================== AUTH MODAL (Unified) ====================
 const AuthModal = ({ type, onSuccess, onSwitch }) => {

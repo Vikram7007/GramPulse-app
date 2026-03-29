@@ -34,10 +34,10 @@ function SubmitIssue() {
     if (!file) return null;
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'grampulse_unsigned');
+    formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
     formData.append('folder', 'grampulse_issues');
     try {
-      const res = await fetch('https://api.cloudinary.com/v1_1/dkwuxbwkn/upload', {
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/upload`, {
         method: 'POST',
         body: formData,
       });
