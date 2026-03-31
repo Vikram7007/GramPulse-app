@@ -109,6 +109,25 @@ const GramSevakSidebar = ({ activeTab, onTabChange, adminName, village, isOpen, 
           </button>
         ))}
 
+        {/* Separator / Site Navigation */}
+        <div className="px-6 mt-8 mb-4 border-t border-white/5 pt-8">
+           <p className="text-[9px] font-black text-emerald-200/20 uppercase tracking-[0.4em]">{t('siteLinks') || 'Village Portal'}</p>
+        </div>
+
+        <button
+          onClick={() => navigate('/public')}
+          className="w-full group relative flex items-center gap-4 px-4 py-4 rounded-2xl text-emerald-100/60 hover:text-white hover:bg-white/5 transition-all duration-500"
+        >
+          <div className="w-11 h-11 rounded-xl bg-white/10 text-emerald-300 flex items-center justify-center group-hover:bg-white/20 transition-all">
+            <LayoutDashboard className="w-5 h-5 stroke-[2.5]" />
+          </div>
+          <div className="text-left flex-1">
+             <p className="text-sm font-black tracking-tight leading-none mb-1 text-white">Village Dashboard</p>
+             <p className="text-[9px] font-bold uppercase tracking-widest text-emerald-200/40">गावविकास डॅशबोर्ड</p>
+          </div>
+          <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0" />
+        </button>
+
         {/* Efficiency Card */}
         <div className="mt-12 px-6 pb-6">
            <div className="p-5 bg-white/5 rounded-3xl border border-white/5 relative overflow-hidden group">

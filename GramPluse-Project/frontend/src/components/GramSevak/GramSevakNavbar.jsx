@@ -172,59 +172,59 @@ const GramSevakNavbar = ({ adminName, village, unreadCount = 0, onMenuClick }) =
 
               {/* Notification Dropdown */}
               {showNotifications && (
-                <div className="absolute top-full right-0 mt-3 w-80 bg-white rounded-[2rem] shadow-2xl border border-emerald-50 overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300">
-                   <div className="p-5 border-b border-emerald-50 bg-emerald-50/50 flex items-center justify-between">
+                <div className="absolute top-[calc(100%+1rem)] right-0 w-[calc(100vw-2.5rem)] sm:w-96 max-w-[420px] bg-white rounded-[2rem] shadow-2xl border border-emerald-50 overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 z-50">
+                   <div className="p-4 sm:p-5 border-b border-emerald-50 bg-emerald-50/50 flex items-center justify-between">
                       <div>
-                        <h3 className="font-black text-gray-900 text-sm">{t('notifications')}</h3>
-                        <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">{unreadCountReal} New Updates</p>
+                        <h3 className="font-black text-gray-900 text-[13px] sm:text-sm">{t('notifications')}</h3>
+                        <p className="text-[9px] sm:text-[10px] font-bold text-emerald-600 uppercase tracking-widest leading-none mt-1">{unreadCountReal} Updates</p>
                       </div>
                       <button 
                         onClick={handleClearAll}
-                        className="text-[10px] font-black text-emerald-600 hover:text-emerald-700 uppercase tracking-widest font-display"
+                        className="text-[9px] sm:text-[10px] font-black text-emerald-600 hover:text-emerald-700 uppercase tracking-widest font-display"
                       >
                         Clear All
                       </button>
                    </div>
 
-                   <div className="max-h-[400px] overflow-y-auto no-scrollbar">
+                   <div className="max-h-[350px] sm:max-h-[400px] overflow-y-auto no-scrollbar">
                      {notifications.length > 0 ? (
                        notifications.map((notif) => (
                          <button 
                            key={notif._id || notif.id}
                            onClick={() => setNotifications(notifications.map(n => (n._id === notif._id || (n.id && n.id === notif.id)) ? {...n, read: true} : n))}
-                           className={`w-full p-4 flex gap-4 text-left hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-0 ${!notif.read ? 'bg-emerald-50/20' : ''}`}
+                           className={`w-full p-3.5 sm:p-4 flex gap-3 sm:gap-4 text-left hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-0 ${!notif.read ? 'bg-emerald-50/20' : ''}`}
                          >
-                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                            <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 ${
                               notif.type === 'urgent' ? 'bg-rose-100 text-rose-600' : 
                               notif.type === 'meeting' ? 'bg-blue-100 text-blue-600' :
                               'bg-emerald-100 text-emerald-600'
                             }`}>
-                               {notif.type === 'urgent' ? <Shield className="w-5 h-5" /> : <Activity className="w-5 h-5" />}
+                               {notif.type === 'urgent' ? <Shield className="w-4 h-4 sm:w-5 sm:h-5" /> : <Activity className="w-4 h-4 sm:w-5 sm:h-5" />}
                             </div>
-                            <div className="flex-1">
-                               <div className="flex items-center justify-between mb-0.5">
-                                 <p className="font-black text-gray-900 text-xs">{notif.title}</p>
-                                 <span className="text-[9px] font-bold text-gray-400">
+                            <div className="flex-1 min-w-0">
+                               <div className="flex items-center justify-between mb-0.5 gap-2">
+                                 <p className="font-black text-gray-900 text-[11px] sm:text-xs truncate">{notif.title}</p>
+                                 <span className="text-[8px] sm:text-[9px] font-bold text-gray-400 shrink-0">
                                    {new Date(notif.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                  </span>
                                </div>
-                               <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{notif.desc}</p>
+                               <p className="text-[11px] sm:text-xs text-gray-500 leading-tight line-clamp-2">{notif.desc}</p>
                                {!notif.read && (
-                                 <span className="inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full mt-2"></span>
+                                 <span className="inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full mt-1.5"></span>
                                )}
                             </div>
                          </button>
                        ))
                      ) : (
                        <div className="p-10 text-center">
-                          <Bell className="w-12 h-12 text-gray-200 mx-auto mb-3" />
-                          <p className="text-xs font-bold text-gray-400">No new notifications</p>
+                          <Bell className="w-10 h-10 sm:w-12 sm:h-12 text-gray-200 mx-auto mb-3" />
+                          <p className="text-[11px] sm:text-xs font-bold text-gray-400">No new notifications</p>
                        </div>
                      )}
                    </div>
 
-                   <div className="p-3 bg-gray-50 border-top border-gray-100 text-center">
-                      <button className="text-[10px] font-black text-gray-400 uppercase tracking-widest hover:text-emerald-600 transition-colors">
+                   <div className="p-3 bg-gray-50 border-t border-gray-100 text-center">
+                      <button className="text-[9px] sm:text-[10px] font-black text-gray-400 uppercase tracking-widest hover:text-emerald-600 transition-colors">
                         View All Activity
                       </button>
                    </div>
