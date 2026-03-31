@@ -246,6 +246,7 @@ const VillageAdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('all');
   const [resolvedFilter, setResolvedFilter] = useState('this-week');
   const [activePanel, setActivePanel] = useState('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const userTabs = [
     { id: 'all', label: t('all', 'सर्व') },
@@ -344,12 +345,23 @@ const VillageAdminDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F0F4F2] font-sans selection:bg-emerald-100 selection:text-emerald-900">
-      <VillageAdminNavbar adminNameProp={currentUsername} onGramSabhaClick={() => setShowNoticeSlider(true)} />
-      <VillageAdminSidebar activePanel={activePanel} setActivePanel={setActivePanel} adminName={currentUsername} adminPhone={currentMobile} />
+    <div className="min-h-screen bg-[#F0F4F2] font-sans selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden">
+      <VillageAdminNavbar 
+        adminNameProp={currentUsername} 
+        onGramSabhaClick={() => setShowNoticeSlider(true)} 
+        onMenuClick={() => setIsSidebarOpen(true)}
+      />
+      <VillageAdminSidebar 
+        activePanel={activePanel} 
+        setActivePanel={(panel) => { setActivePanel(panel); setIsSidebarOpen(false); }} 
+        adminName={currentUsername} 
+        adminPhone={currentMobile}
+        isOpen={isSidebarOpen}
+        setOpen={setIsSidebarOpen}
+      />
 
-      <div className="pt-20 md:ml-72 min-h-screen transition-all duration-300">
-        <main className="p-4 sm:p-6 lg:p-8 space-y-8 animate-fade-in">
+      <div className="pt-20 md:ml-72 min-h-screen transition-all duration-300 relative">
+        <main className="p-4 sm:p-6 lg:p-8 space-y-8 animate-fade-in overflow-hidden">
           
           {activePanel === 'dashboard' && (
             <>

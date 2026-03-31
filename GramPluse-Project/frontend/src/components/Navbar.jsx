@@ -19,12 +19,13 @@ import {
   CheckCircle,
   Clock,
   ExternalLink,
+  ChevronRight,
   Info
 } from 'lucide-react';
 import { useSocket } from '../context/SocketContext';
 import api from '../utils/api';
 
-function Navbar({ onGramSabhaClick }) {
+function Navbar({ onGramSabhaClick, onSearch, onMenuClick }) {
   const { t, i18n } = useTranslation();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -143,8 +144,8 @@ function Navbar({ onGramSabhaClick }) {
    <nav
   ref={navRef}
   className={`fixed top-0 left-0 right-0 z-[1001] transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) ${isScrolled
-    ? 'h-16 bg-[#0A6A51] text-white shadow-md border-b border-emerald-100'
-    : 'h-20 bg-[#0A6A51] text-white shadow-sm border-b border-emerald-50'
+    ? 'h-16 bg-[#0C7779] text-white shadow-md border-b border-emerald-100'
+    : 'h-20 bg-[#0C7779] text-white shadow-sm border-b border-emerald-50'
     }`}
 >
       {/* Top Accent Line with animation */}
@@ -158,7 +159,13 @@ function Navbar({ onGramSabhaClick }) {
           {/* Left: Brand & Mobile Menu */}
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => {
+                if (onMenuClick) {
+                  onMenuClick();
+                } else {
+                  setMobileMenuOpen(!mobileMenuOpen);
+                }
+              }}
               className="md:hidden p-2 text-white hover:bg-white/20 rounded-xl transition-all active:scale-95"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -187,14 +194,23 @@ function Navbar({ onGramSabhaClick }) {
           {/* Center: Search Bar (Desktop) */}
           <div className="hidden md:flex flex-1 max-w-xl mx-8">
             <div className="relative w-full group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 rounded-full blur-md opacity-0 group-focus-within:opacity-100 transition-all duration-500"></div>
-              <div className="relative flex items-center bg-white/90 backdrop-blur-md border-none rounded-full px-5 py-2.5 focus-within:bg-white transition-all duration-300 shadow-sm hover:shadow-md">
+              <div className="relative flex items-center bg-white/90 backdrop-blur-md border-none rounded-full px-5 py-2.5 focus-within:bg-white transition-all duration-300 shadow-sm hover:shadow-md ring-0 outline-none">
                 <Search className="w-4 h-4 text-emerald-900 mr-3 group-focus-within:scale-110 transition-transform" />
                 <input
                   type="text"
                   placeholder={t('searchPlaceholder') || "Search issues, services..."}
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setSearchQuery(val);
+                    if (onSearch) onSearch(val);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') {
+                      setSearchQuery('');
+                      if (onSearch) onSearch('');
+                    }
+                  }}
                   className="bg-transparent border-none outline-none text-black placeholder-gray-500 text-sm w-full font-medium"
                 />
                 <div className="hidden group-focus-within:flex items-center gap-1.5 ml-2">
@@ -381,7 +397,7 @@ function Navbar({ onGramSabhaClick }) {
                       </div>
                       <ChevronRight className="w-4 h-4 text-emerald-200 group-hover:translate-x-1 transition-transform" />
                     </button>
-                    <button onClick={() => navigate('/settings')} className="w-full flex items-center justify-between px-5 py-4 rounded-3xl text-emerald-900 hover:bg-emerald-50 transition-all group">
+                    <button onClick={() => navigate('/PeopleProfile')} className="w-full flex items-center justify-between px-5 py-4 rounded-3xl text-emerald-900 hover:bg-emerald-50 transition-all group">
                       <div className="flex items-center gap-4">
                         <div className="w-10 h-10 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
                           <Settings className="w-5 h-5" />
@@ -452,7 +468,7 @@ function Navbar({ onGramSabhaClick }) {
         </div>
       )}
 
-      <style jsx>{`
+      <style>{`
         @keyframes springUp {
           0% { opacity: 0; transform: translateY(20px) scale(0.9); }
           70% { opacity: 1; transform: translateY(-5px) scale(1.02); }

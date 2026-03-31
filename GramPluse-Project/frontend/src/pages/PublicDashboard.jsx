@@ -66,6 +66,8 @@ function PublicDashboard() {
     }
   ];
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
@@ -83,9 +85,9 @@ function PublicDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAF9] font-sans selection:bg-emerald-100 selection:text-emerald-900">
-      <Navbar />
-      <Sidebar />
+    <div className="min-h-screen bg-[#F8FAF9] font-sans selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden">
+      <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* Main Content */}
       <div className="pt-24 md:ml-72 transition-all duration-500 ease-in-out pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl">

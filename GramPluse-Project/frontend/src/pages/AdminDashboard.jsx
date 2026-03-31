@@ -237,6 +237,8 @@ const GramSevakDashboard = () => {
   const [authMode, setAuthMode] = useState('login'); 
   const [checkingAuth, setCheckingAuth] = useState(true);
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   useEffect(() => {
     if (user) {
       setGramSevak(user);
@@ -468,20 +470,23 @@ const GramSevakDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F0F4F2] font-sans selection:bg-emerald-100 selection:text-emerald-900">
+    <div className="min-h-screen bg-[#F0F4F2] font-sans selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden">
       <GramSevakNavbar 
         adminName={gramSevak.name} 
         village={gramSevak.village} 
+        onMenuClick={() => setIsSidebarOpen(true)}
       />
       <GramSevakSidebar 
         activeTab={activeTab} 
-        onTabChange={setActiveTab} 
+        onTabChange={(tab) => { setActiveTab(tab); setIsSidebarOpen(false); }} 
         adminName={gramSevak.name} 
         village={gramSevak.village}
         stats={stats}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
       />
 
-      <div className="pt-24 md:ml-80 transition-all duration-500 ease-in-out pb-24 md:pb-12 px-6 sm:px-10 lg:px-14 bg-gradient-to-br from-white via-[#F0F7F2] to-[#E8F1EC] min-h-screen relative overflow-hidden">
+      <div className="pt-24 md:ml-80 transition-all duration-500 ease-in-out pb-24 md:pb-12 px-4 sm:px-10 lg:px-14 bg-gradient-to-br from-white via-[#F0F7F2] to-[#E8F1EC] min-h-screen relative overflow-hidden">
         
         {/* Decorative Background Elements */}
         <div className="fixed top-0 right-72 w-[500px] h-[500px] bg-gradient-to-br from-emerald-200/20 to-teal-200/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none z-0"></div>

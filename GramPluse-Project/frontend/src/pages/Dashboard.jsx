@@ -37,6 +37,9 @@ function Dashboard() {
   const [notices, setNotices] = useState([]);
   const [showNoticePopup, setShowNoticePopup] = useState(false);
   const [currentNoticeIndex, setCurrentNoticeIndex] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const getWeekOptions = () => {
     const options = [{ value: 'current', label: t('currentWeek') }];
@@ -134,15 +137,23 @@ function Dashboard() {
     issue: issues.filter((i) => i.status === 'rejected' || i.status === 'Issue').length,
   };
 
-  const displayedIssues =
-    activeTab === 'all'
-      ? issues
-      : issues.filter((issue) => {
+  const displayedIssues = (activeTab === 'all'
+    ? issues
+    : issues.filter((issue) => {
         if (activeTab === 'inProgress') return issue.status === 'in-progress';
         if (activeTab === 'approved') return issue.status === 'approved' || issue.status === 'Completed';
         if (activeTab === 'rejected') return issue.status === 'rejected' || issue.status === 'Issue';
         return true;
-      });
+      })
+  ).filter(issue => {
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      issue.title?.toLowerCase().includes(q) ||
+      (t(issue.descriptionKey || issue.description))?.toLowerCase().includes(q) ||
+      issue.category?.toLowerCase().includes(q)
+    );
+  });
 
   const handleNextNotice = () => {
     if (currentNoticeIndex < notices.length - 1) {
@@ -166,13 +177,15 @@ function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAF9] font-sans selection:bg-emerald-100 selection:text-emerald-900">
+    <div className="min-h-screen bg-[#F8FAF9] font-sans selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden">
       {/* 
         NAVBAR: Fixed at top. 
         Sidebar will sit below it or overlay it depending on design.
       */}
       <Navbar
         onGramSabhaClick={handleGramSabhaClick}
+        onSearch={(query) => setSearchQuery(query)}
+        onMenuClick={() => setIsSidebarOpen(true)}
       />
 
       {/* 
@@ -180,7 +193,7 @@ function Dashboard() {
         Desktop: fixed left-0 top-16/20 w-72.
         Mobile: fixed inset, toggled.
       */}
-      <Sidebar />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* 
         MAIN CONTENT:
@@ -205,7 +218,7 @@ function Dashboard() {
                 </span>
               </div>
               <h1 className="text-4xl sm:text-6xl font-black text-[#0B1A2C] leading-none mb-4 tracking-tighter">
-                {t('village', 'Village')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0B8A5A] via-[#0B4A3A] to-[#0B1A2C]">{t('issues', 'Issues')}</span>
+                {t('village', 'Village')} <span className="text-[#0C7779]">{t('issues', 'Issues')}</span>
               </h1>
               <p className="text-lg text-gray-500 font-bold max-w-2xl leading-relaxed">
                 {t('dashboardSubtitle', 'Track, report, and solve community problems together. Your voice matters in building a better village.')}
@@ -461,7 +474,7 @@ function Dashboard() {
         </div>
       )}
 
-      <style jsx>{`
+      <style>{`
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }

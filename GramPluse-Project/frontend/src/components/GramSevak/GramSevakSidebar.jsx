@@ -17,7 +17,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-const GramSevakSidebar = ({ activeTab, onTabChange, adminName, village }) => {
+const GramSevakSidebar = ({ activeTab, onTabChange, adminName, village, isOpen, onClose }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -35,13 +35,24 @@ const GramSevakSidebar = ({ activeTab, onTabChange, adminName, village }) => {
   ];
 
   return (
-    <aside className="fixed left-0 top-0 bottom-0 w-80 bg-[#064E3B] border-r border-white/5 z-[90] hidden md:flex flex-col animate-in slide-in-from-left-4 duration-500 shadow-2xl overflow-hidden">
-      
-      {/* Dynamic Background Glow */}
-      <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-md z-[80] animate-in fade-in duration-300"
+          onClick={onClose}
+        />
+      )}
 
-      {/* Top Profile Region */}
-      <div className="pt-24 px-6 pb-8 relative z-10">
+      <aside className={`fixed left-0 top-0 bottom-0 w-80 bg-[#0C7779] border-r border-white/5 z-[90] transition-transform duration-500 ease-in-out flex flex-col shadow-2xl overflow-hidden ${
+        isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+      }`}>
+        
+        {/* Dynamic Background Glow */}
+        <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
+
+        {/* Top Profile Region */}
+        <div className="pt-24 px-6 pb-8 relative z-10">
         <div className="relative group p-6 rounded-[2rem] bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl overflow-hidden hover:bg-white/10 transition-all duration-500">
           <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-400/20 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
           
@@ -129,10 +140,11 @@ const GramSevakSidebar = ({ activeTab, onTabChange, adminName, village }) => {
         </button>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
       `}</style>
     </aside>
+    </>
   );
 };
 

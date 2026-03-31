@@ -9,7 +9,7 @@ import {
 import { notifySuccess } from '../../NotificationToast';
 import { useSocket } from '../../../context/SocketContext';
 
-const VillageAdminNavbar = ({ onGramSabhaClick, adminNameProp }) => {
+const VillageAdminNavbar = ({ onGramSabhaClick, adminNameProp, onMenuClick }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
@@ -121,7 +121,7 @@ const VillageAdminNavbar = ({ onGramSabhaClick, adminNameProp }) => {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-[1001] transition-all duration-700 bg-[#0A6A51] ${
+      className={`fixed top-0 left-0 right-0 z-[1001] transition-all duration-700 bg-[#0C7779] text-white ${
         isScrolled ? 'h-16 shadow-lg border-b border-white/10' : 'h-20 shadow-sm'
       }`}
     >
@@ -134,6 +134,14 @@ const VillageAdminNavbar = ({ onGramSabhaClick, adminNameProp }) => {
           
           {/* Brand */}
           <div className="flex items-center gap-3">
+            {/* Mobile Menu Toggle */}
+            <button 
+              onClick={onMenuClick}
+              className="md:hidden p-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition-all active:scale-95"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+
             <div className="relative group cursor-pointer" onClick={() => navigate('/dashboard')}>
               <div className="absolute inset-0 bg-white/20 rounded-xl blur group-hover:bg-white/40 transition-all duration-500"></div>
               <div className="relative bg-[#0B4A3A] p-2 sm:p-2.5 rounded-xl border border-emerald-400/30 shadow-lg flex items-center justify-center">

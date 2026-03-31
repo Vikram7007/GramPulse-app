@@ -4,8 +4,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-function VillageAdminSidebar({ activePanel, setActivePanel, adminName, adminPhone }) {
-  const [open, setOpen] = useState(false);
+function VillageAdminSidebar({ activePanel, setActivePanel, adminName, adminPhone, isOpen, setOpen }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -24,22 +23,15 @@ function VillageAdminSidebar({ activePanel, setActivePanel, adminName, adminPhon
 
   return (
     <>
-      <button
-        onClick={() => setOpen(!open)}
-        className="md:hidden fixed left-4 bottom-24 z-[9999] bg-[#0B8A5A] text-white p-4 rounded-2xl shadow-2xl transition-all active:scale-90"
-      >
-        {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </button>
-
-      {open && (
+      {isOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-[#0B1A2C]/40 backdrop-blur-sm z-[999]"
+          className="md:hidden fixed inset-0 bg-[#0B1A2C]/40 backdrop-blur-sm z-[1001]"
           onClick={() => setOpen(false)}
         />
       )}
 
       <div
-        className={`fixed top-0 bottom-0 left-0 z-[1002] md:z-[1000] w-[280px] bg-[#0A6A51] text-white shadow-2xl border-r border-emerald-500/20 transform transition-transform duration-500 flex flex-col ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:top-0 md:h-screen md:pt-20`}
+        className={`fixed top-0 bottom-0 left-0 z-[1002] md:z-[1000] w-[280px] bg-[#0C7779] text-white shadow-2xl border-r border-emerald-500/20 transform transition-transform duration-500 flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:top-0 md:h-screen md:pt-20`}
       >
         <div className="relative flex-1 overflow-y-auto py-8 px-4 flex flex-col h-full custom-scrollbar">
           

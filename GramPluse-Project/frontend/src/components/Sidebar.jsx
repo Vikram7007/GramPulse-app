@@ -11,6 +11,7 @@ import {
   X,
   Sparkles,
   ChevronRight,
+  ChevronDown,
   Bell,
   Settings,
   HelpCircle,
@@ -23,23 +24,15 @@ import {
   GraduationCap
 } from "lucide-react";
 
-// You might need to import useAuth if you want real user data
-// import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
-function Sidebar() {
-  const [open, setOpen] = useState(false);
+function Sidebar({ isOpen, onClose }) {
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Mock user data
-  const user = {
-    name: "Village Member",
-    role: "Resident",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
-    location: "Ralegan Siddhi",
-    points: 1250
-  };
+  const { user, logout } = useAuth();
 
   const isActive = (path) => location.pathname === path;
 
@@ -76,7 +69,7 @@ function Sidebar() {
       </div>
       <div className="flex flex-col relative z-10">
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">{user.location}</span>
+          <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">{user?.location || "Village"}</span>
           <div className="w-1 h-1 rounded-full bg-emerald-400"></div>
           <span className="text-[10px] font-bold text-white">LIVE</span>
         </div>
@@ -98,20 +91,11 @@ function Sidebar() {
 
   return (
     <>
-      {/* Mobile Toggle Button */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="md:hidden fixed left-4 bottom-24 z-[9999] bg-emerald-900 text-white p-4 rounded-2xl shadow-2xl transition-all active:scale-90"
-        aria-label="Toggle Sidebar"
-      >
-        {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </button>
-
       {/* Mobile Overlay */}
-      {open && (
-        <div
-          className="md:hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-[999] animate-fadeIn"
-          onClick={() => setOpen(false)}
+      {isOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-md z-[1001] animate-in fade-in duration-300"
+          onClick={onClose}
         />
       )}
 
@@ -120,16 +104,17 @@ function Sidebar() {
         className={`
           fixed top-0 bottom-0 left-0 z-[1002] md:z-[1000]
           w-[290px]
-         bg-[#0A6A51] 
+         bg-[#0C7779] 
          text-white
           shadow-[30px_0_80px_-20px_rgba(0,0,0,0.3)]
           border-r border-white/5
           transform transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1)
           flex flex-col
-          ${open ? "translate-x-0" : "-translate-x-full"}
-          md:translate-x-0 md:top-0 md:h-screen md:pt-24
+          ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+          md:top-0 md:h-screen md:pt-24
         `}
       >
+
         <div className="relative flex-1 overflow-y-auto no-scrollbar py-8 flex flex-col h-full">
 
           <WeatherWidget />
@@ -186,31 +171,45 @@ function Sidebar() {
           </nav>
 
           {/* User Profile Footer - Premium Glass */}
-          <div className="p-4 mt-12 bg-black/20">
-            <div className="bg-white/5 backdrop-blur-2xl rounded-3xl p-4 border border-white/5 flex items-center justify-between group hover:bg-white/10 transition-all duration-500 shadow-sm hover:shadow-xl">
-              <Link to="/PeopleProfile" className="flex items-center gap-3 flex-1 overflow-hidden" onClick={() => setOpen(false)}>
+          <div className="p-4 mt-12 bg-black/20 relative">
+            {showProfileMenu && user && (
+              <div className="absolute bottom-full left-4 mb-4 w-[258px] bg-white border border-emerald-100 shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-[2rem] overflow-hidden animate-springUp origin-bottom-left z-[1002]">
+                <div className="p-4 space-y-1 bg-white">
+                  <button onClick={() => { navigate('/PeopleProfile'); setShowProfileMenu(false); }} className="w-full flex items-center gap-4 px-4 py-3 rounded-2xl text-emerald-900 hover:bg-emerald-50 transition-all">
+                    <User className="w-4 h-4 text-emerald-600" />
+                    <p className="font-bold text-sm">{t('myProfile')}</p>
+                  </button>
+                  <button onClick={() => { navigate('/PeopleProfile'); setShowProfileMenu(false); }} className="w-full flex items-center gap-4 px-4 py-3 rounded-2xl text-emerald-900 hover:bg-emerald-50 transition-all">
+                    <Settings className="w-4 h-4 text-emerald-600" />
+                    <p className="font-bold text-sm">{t('settings')}</p>
+                  </button>
+                  <div className="h-px bg-gray-50 my-1 mx-4"></div>
+                  <button onClick={() => { logout(); navigate('/'); }} className="w-full flex items-center gap-4 px-4 py-3 rounded-2xl text-red-500 hover:bg-red-50 transition-all">
+                    <LogOut className="w-4 h-4 text-red-500" />
+                    <p className="font-bold text-sm">Sign Out</p>
+                  </button>
+                </div>
+              </div>
+            )}
+            <div 
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              className="bg-white/5 backdrop-blur-2xl rounded-3xl p-4 border border-white/5 flex items-center justify-between group hover:bg-white/10 transition-all duration-500 shadow-sm hover:shadow-xl cursor-pointer"
+            >
+              <div className="flex items-center gap-3 flex-1 overflow-hidden">
                 <div className="relative">
                   <img
-                    src={user.avatar}
+                    src={user?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'Felix'}`}
                     alt="user"
                     className="w-12 h-12 rounded-2xl border-2 border-white/10 shadow-md object-cover transform transition-transform group-hover:scale-105"
                   />
                   <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-emerald-950 rounded-full"></div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-black text-white truncate">{user.name}</p>
-                  <p className="text-[10px] font-bold text-white uppercase tracking-widest">{user.points} XP</p>
+                  <p className="text-sm font-black text-white truncate">{user?.name || 'Guest User'}</p>
+                  <p className="text-[10px] font-bold text-white uppercase tracking-widest">{user?.points || 0} XP</p>
                 </div>
-              </Link>
-              <button
-                onClick={() => {
-                  navigate('/');
-                }}
-                className="p-3 rounded-2xl text-white hover:text-white hover:bg-white/10 transition-all duration-300 active:scale-90"
-                title="Logout"
-              >
-                <LogOut className="w-5 h-5" />
-              </button>
+              </div>
+              <ChevronDown className={`w-4 h-4 text-white transition-transform duration-500 ${showProfileMenu ? 'rotate-180' : ''}`} />
             </div>
           </div>
 

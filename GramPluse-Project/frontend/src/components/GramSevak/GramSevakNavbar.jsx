@@ -6,7 +6,7 @@ import { notifySuccess, notifyError } from '../../components/NotificationToast';
 import { io } from 'socket.io-client';
 import api from '../../utils/api';
 
-const GramSevakNavbar = ({ adminName, village, unreadCount = 0 }) => {
+const GramSevakNavbar = ({ adminName, village, unreadCount = 0, onMenuClick }) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -84,7 +84,7 @@ const GramSevakNavbar = ({ adminName, village, unreadCount = 0 }) => {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
-      isScrolled ? 'h-16 bg-white/90 backdrop-blur-xl shadow-lg border-b border-emerald-100' : 'h-20 bg-emerald-900 border-b border-white/10'
+      isScrolled ? 'h-16 bg-white/90 backdrop-blur-xl shadow-lg border-b border-emerald-100' : 'h-20 bg-[#0C7779] text-white border-b border-white/10'
     }`}>
       {/* Top Accent Line */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-600"></div>
@@ -93,16 +93,24 @@ const GramSevakNavbar = ({ adminName, village, unreadCount = 0 }) => {
         <div className="flex items-center justify-between h-full">
           
           {/* Brand & Badge */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 sm:gap-6">
+            {/* Mobile Menu Toggle */}
+            <button 
+              onClick={onMenuClick}
+              className="md:hidden p-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition-all active:scale-95"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+
             <div className="flex items-center gap-3">
-               <div className="bg-white/10 p-2 rounded-xl backdrop-blur-md border border-white/20">
+               <div className="bg-white/10 p-2 rounded-xl backdrop-blur-md border border-white/20 hidden xs:flex">
                   <Shield className={`w-6 h-6 ${isScrolled ? 'text-emerald-600' : 'text-emerald-400'}`} />
                </div>
-               <div className="hidden sm:block">
-                  <h1 className={`text-xl font-black tracking-tight ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
+               <div className="block">
+                  <h1 className={`text-lg sm:text-xl font-black tracking-tight ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
                     Gram<span className="text-emerald-400">Pulse</span> <span className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40">Pro</span>
                   </h1>
-                  <p className={`text-[9px] font-bold uppercase tracking-widest ${isScrolled ? 'text-emerald-600' : 'text-emerald-300'}`}>
+                  <p className={`text-[8px] sm:text-[9px] font-bold uppercase tracking-widest ${isScrolled ? 'text-emerald-600' : 'text-emerald-300'}`}>
                     Gram Sevak Dashboard
                   </p>
                </div>
