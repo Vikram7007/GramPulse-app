@@ -237,7 +237,7 @@ function Navbar({ onGramSabhaClick, onSearch, onMenuClick }) {
               </button>
 
               {showNotifications && (
-                <div className="absolute top-full right-0 mt-4 w-80 sm:w-96 bg-white/98 backdrop-blur-2xl border border-emerald-100 shadow-2xl rounded-[2rem] overflow-hidden animate-springUp origin-top-right z-50">
+                <div className="absolute top-full right-0 mt-4 w-[calc(100vw-2rem)] sm:w-96 max-w-[400px] bg-white/98 backdrop-blur-2xl border border-emerald-100 shadow-2xl rounded-[2rem] overflow-hidden animate-springUp origin-top-right z-50">
                   <div className="p-6 border-b border-emerald-50 flex justify-between items-center bg-gradient-to-r from-emerald-50/50 to-white">
                     <div>
                       <h3 className="font-black text-emerald-950 text-lg">Activity</h3>
