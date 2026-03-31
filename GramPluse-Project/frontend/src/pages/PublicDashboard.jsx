@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, LineChart, Line, Area, AreaChart } from 'recharts';
 import { TrendingUp, CheckCircle, Clock, AlertTriangle, Users, FileText, Target, Award, Activity, Sparkles, Home, ArrowLeft } from 'lucide-react';
 import Navbar from '../components/Navbar';
@@ -90,7 +91,7 @@ function PublicDashboard() {
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* Main Content */}
-      <div className="pt-24 md:ml-72 transition-all duration-500 ease-in-out pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl">
+      <div className="pt-24 md:ml-72 transition-all duration-500 ease-in-out pb-20 px-3.5 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-16 animate-fadeInDown">
           <div className="inline-flex items-center justify-center gap-3 mb-6 bg-white/50 backdrop-blur-md border border-emerald-100 px-6 py-2 rounded-full shadow-sm">

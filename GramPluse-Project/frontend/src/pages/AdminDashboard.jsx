@@ -493,7 +493,7 @@ const GramSevakDashboard = () => {
         <div className="fixed bottom-0 left-72 w-[600px] h-[600px] bg-gradient-to-tr from-green-200/20 to-cyan-200/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none z-0"></div>
         {/* Header - Optimized for Gram Sevak Pro */}
         <div className="max-w-7xl mx-auto mb-8">
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-6 bg-white/40 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-xl shadow-emerald-900/5 border border-white/50 relative overflow-hidden group">
+          <div className="flex flex-col lg:flex-row justify-between items-center gap-6 bg-white/40 backdrop-blur-xl p-5 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-emerald-900/5 border border-white/50 relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-500/10 transition-colors"></div>
             
             <div className="relative z-10">

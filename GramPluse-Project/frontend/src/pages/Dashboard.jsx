@@ -201,7 +201,7 @@ function Dashboard() {
         - md:ml-72: Push right to avoid Sidebar overlap on Desktop.
         - transition: Smooth resize if sidebar were collapsible (optional).
       */}
-      <div className="pt-24 md:ml-72 transition-all duration-500 ease-in-out pb-24 md:pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-[#F0F7F2] to-[#E8F1EC] min-h-screen relative overflow-hidden">
+      <div className="pt-24 md:ml-72 transition-all duration-500 ease-in-out pb-20 px-3.5 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-[#F0F7F2] to-[#E8F1EC] min-h-screen relative overflow-hidden">
 
         {/* Decorative Background Elements */}
         <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-emerald-200/20 to-teal-200/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none z-0"></div>
@@ -217,10 +217,10 @@ function Dashboard() {
                   <TrendingUp className="w-3.5 h-3.5" /> {t('communityFirst', 'Community First')}
                 </span>
               </div>
-              <h1 className="text-4xl sm:text-6xl font-black text-[#0B1A2C] leading-none mb-4 tracking-tighter">
+              <h1 className="text-3xl sm:text-6xl font-black text-[#0B1A2C] leading-none mb-4 tracking-tighter">
                 {t('village', 'Village')} <span className="text-[#0C7779]">{t('issues', 'Issues')}</span>
               </h1>
-              <p className="text-lg text-gray-500 font-bold max-w-2xl leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-500 font-bold max-w-2xl leading-relaxed">
                 {t('dashboardSubtitle', 'Track, report, and solve community problems together. Your voice matters in building a better village.')}
               </p>
             </div>
