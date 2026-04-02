@@ -8,7 +8,7 @@ import Sidebar from '../components/Sidebar';
 import {
   Camera, MapPin, UploadCloud, CheckCircle, AlertCircle,
   Loader2, Navigation, Lightbulb, Droplets, Truck,
-  Trash2, Footprints, AlertTriangle, FileText, X
+  Trash2, Footprints, AlertTriangle, FileText, X, ChevronRight
 } from 'lucide-react';
 import BottomNavbar from '../components/BottomNavbar';
 

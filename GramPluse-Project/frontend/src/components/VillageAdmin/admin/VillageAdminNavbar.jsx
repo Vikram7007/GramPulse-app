@@ -4,7 +4,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
-  Search, Bell, CheckCircle, User, Settings, LogOut, ChevronDown, Building2, Megaphone
+  Search, Bell, CheckCircle, User, Settings, LogOut, ChevronDown, Building2, Megaphone, Menu
 } from 'lucide-react';
 import { notifySuccess } from '../../NotificationToast';
 import { useSocket } from '../../../context/SocketContext';

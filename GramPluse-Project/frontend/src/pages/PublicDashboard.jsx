@@ -4,6 +4,7 @@ import { TrendingUp, CheckCircle, Clock, AlertTriangle, Users, FileText, Target,
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import BottomNavbar from '../components/BottomNavbar';
+import { useTranslation } from 'react-i18next';
 
 function PublicDashboard() {
   const { t } = useTranslation();
