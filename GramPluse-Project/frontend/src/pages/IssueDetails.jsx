@@ -10,6 +10,7 @@ import {
   CheckCircle, Clock, AlertTriangle, ArrowLeft, Maximize2, X,
   ChevronRight, Activity, TrendingUp, Users, ExternalLink, ShieldCheck
 } from 'lucide-react';
+import BottomNavbar from '../components/BottomNavbar';
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
@@ -103,7 +104,7 @@ function IssueDetails() {
         <Sidebar />
       </div>
 
-      <div className="pt-24 md:ml-72 transition-all duration-500 pb-20 px-4 sm:px-6 lg:px-8">
+      <div className="pt-20 md:pt-24 md:ml-72 transition-all duration-500 pb-32 md:pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-8">
           
           {/* Navigation & Header */}
@@ -151,7 +152,7 @@ function IssueDetails() {
                           <Calendar className="w-3.5 h-3.5" /> {new Date(issue.createdAt).toLocaleDateString()}
                         </span>
                       </div>
-                      <h1 className="text-4xl sm:text-5xl font-black text-gray-900 leading-[1.1] tracking-tighter">
+                      <h1 className="text-3xl sm:text-5xl font-black text-gray-900 leading-[1.1] tracking-tighter">
                          <span className="text-emerald-600">{t(`issueTypes.${issue.type}`) || issue.type}</span> {t('issues')}
                       </h1>
                     </div>
@@ -173,12 +174,12 @@ function IssueDetails() {
                     </div>
                   </div>
 
-                  <div className="bg-emerald-50/30 rounded-[2rem] p-8 sm:p-10 border border-emerald-100/30 mb-10">
+                  <div className="bg-emerald-50/30 rounded-[2rem] p-6 sm:p-10 border border-emerald-100/30 mb-8 sm:mb-10">
                     <div className="flex items-start gap-4 mb-4">
                        <ShieldCheck className="w-6 h-6 text-emerald-600 shrink-0 mt-1" />
-                       <h3 className="text-xl font-black text-emerald-950 tracking-tight">{t('fullDescription')}</h3>
+                       <h3 className="text-lg sm:text-xl font-black text-emerald-950 tracking-tight">{t('fullDescription')}</h3>
                     </div>
-                    <p className="text-gray-600 text-lg leading-relaxed font-medium">
+                    <p className="text-gray-600 text-sm sm:text-lg leading-relaxed font-medium">
                       {issue.description}
                     </p>
                   </div>
@@ -406,6 +407,8 @@ function IssueDetails() {
           50% { opacity: .7; }
         }
       `}</style>
+      {/* Bottom Navigation for Mobile */}
+      <BottomNavbar />
     </div>
   );
 }

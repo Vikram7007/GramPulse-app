@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import BottomNavbar from './BottomNavbar';
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
@@ -120,7 +121,7 @@ const PeopleProfile = () => {
         <Sidebar />
       </div>
 
-      <div className="pt-24 md:ml-72 transition-all duration-500 pb-20 px-4 sm:px-6 lg:px-10">
+      <div className="pt-20 md:pt-24 md:ml-72 transition-all duration-500 pb-32 md:pb-20 px-4 sm:px-6 lg:px-10">
         <div className="max-w-[1400px] mx-auto">
           
           {/* Professional Layout: 2-Column Split */}
@@ -135,11 +136,10 @@ const PeopleProfile = () => {
                 
                 <div className="p-10 sm:p-14 flex flex-col md:flex-row gap-12 items-center">
                    
-                   {/* Centered Avatar Case */}
-                   <div className="relative shrink-0">
-                      <div className="w-44 h-44 rounded-full border-[10px] border-emerald-50/50 shadow-2xl shadow-emerald-900/10 overflow-hidden ring-1 ring-white relative z-10">
-                         <img src={formData.avatar} className="w-full h-full object-cover" alt="profile" />
-                      </div>
+                    <div className="relative shrink-0">
+                       <div className="w-32 h-32 sm:w-44 sm:h-44 rounded-full border-[6px] sm:border-[10px] border-emerald-50/50 shadow-2xl shadow-emerald-900/10 overflow-hidden ring-1 ring-white relative z-10">
+                          <img src={formData.avatar} className="w-full h-full object-cover" alt="profile" />
+                       </div>
                       <div className="absolute -bottom-2 right-4 z-20 bg-white p-2 rounded-2xl shadow-xl border border-slate-50 flex items-center gap-1.5 animate-bounce-slow">
                          <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
                          <span className="text-[10px] font-black text-emerald-950 uppercase tracking-widest">Active</span>
@@ -147,18 +147,18 @@ const PeopleProfile = () => {
                    </div>
 
                    {/* Identitiy Block */}
-                   <div className="flex-1 text-center md:text-left space-y-6">
-                      <div className="space-y-1">
-                         <h1 className="text-5xl font-black text-slate-900 tracking-tighter leading-tight drop-shadow-sm">
-                            {formData.name || 'Citizen Participant'}
-                         </h1>
-                         <p className="text-xl font-medium text-emerald-600 tracking-tight flex items-center justify-center md:justify-start gap-3">
-                            <Mail className="w-5 h-5 opacity-70" /> {formData.email || 'No email provided'}
-                         </p>
-                         <p className="text-xl font-semibold text-slate-600 tracking-tight flex items-center justify-center md:justify-start gap-3 mt-1">
-                            <Phone className="w-5 h-5 opacity-60" /> {formData.phone || 'Enter Phone Number'}
-                         </p>
-                      </div>
+                    <div className="flex-1 text-center md:text-left space-y-4 sm:space-y-6">
+                       <div className="space-y-1">
+                          <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tighter leading-tight drop-shadow-sm">
+                             {formData.name || 'Citizen Participant'}
+                          </h1>
+                          <p className="text-base sm:text-xl font-medium text-emerald-600 tracking-tight flex items-center justify-center md:justify-start gap-3">
+                             <Mail className="w-4 h-4 sm:w-5 h-5 opacity-70" /> {formData.email || 'No email provided'}
+                          </p>
+                          <p className="text-base sm:text-xl font-semibold text-slate-600 tracking-tight flex items-center justify-center md:justify-start gap-3 mt-1">
+                             <Phone className="w-4 h-4 sm:w-5 h-5 opacity-60" /> {formData.phone || 'Enter Phone Number'}
+                          </p>
+                       </div>
 
                       <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
                          <span className="px-5 py-2.5 bg-slate-50 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest border border-slate-100 shadow-sm flex items-center gap-2">
@@ -489,6 +489,7 @@ const PeopleProfile = () => {
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}} />
+      <BottomNavbar />
     </div>
   );
 };

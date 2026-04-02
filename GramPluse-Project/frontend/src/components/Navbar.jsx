@@ -158,21 +158,8 @@ function Navbar({ onGramSabhaClick, onSearch, onMenuClick }) {
 
           {/* Left: Brand & Mobile Menu */}
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => {
-                if (onMenuClick) {
-                  onMenuClick();
-                } else {
-                  setMobileMenuOpen(!mobileMenuOpen);
-                }
-              }}
-              className="md:hidden p-2 text-white hover:bg-white/20 rounded-xl transition-all active:scale-95"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-
             <div
-              className="flex items-center gap-3 cursor-pointer group"
+              className={`flex items-center gap-3 cursor-pointer group ${isScrolled ? 'md:scale-95' : ''}`}
               onClick={() => navigate('/dashboard')}
             >
               <div className="relative">
@@ -425,94 +412,56 @@ function Navbar({ onGramSabhaClick, onSearch, onMenuClick }) {
         </div>
       </div>
 
-      {/* Mobile Menu (Full Screen Overlay) */}
-      {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-0 bg-[#016B61]/95 backdrop-blur-2xl z-40 animate-fadeIn h-screen pt-24 px-6">
-          <div className="space-y-6">
-            <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
-              <input
-                type="text"
-                placeholder="Search resources..."
-                className="w-full bg-white/10 border-none rounded-[2rem] py-5 pl-12 pr-6 text-white placeholder-white/40 outline-none ring-2 ring-white/10"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <button
-                onClick={() => { onGramSabhaClick(); setMobileMenuOpen(false); }}
-                className="col-span-2 flex items-center justify-center gap-3 py-5 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-[2rem] font-black shadow-xl"
-              >
-                <Megaphone className="w-6 h-6" />
-                {t('gramSabhaNotice')}
-              </button>
-
-              {languages.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => { i18n.changeLanguage(lang.code); setMobileMenuOpen(false); }}
-                  className={`py-4 rounded-[1.5rem] font-bold border transition-all ${i18n.language === lang.code
-                    ? 'bg-emerald-500 text-white border-emerald-500 shadow-lg'
-                    : 'bg-white text-emerald-900 border-emerald-100 shadow-sm'
-                    }`}
-                >
-                  {lang.label}
-                </button>
-              ))}
-            </div>
-
-            <div className="pt-8 border-t border-white/10">
-              <p className="text-center text-[10px] font-black text-emerald-200 uppercase tracking-[0.4em]">GramPulse V2.0</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <style>{`
-        @keyframes springUp {
-          0% { opacity: 0; transform: translateY(20px) scale(0.9); }
-          70% { opacity: 1; transform: translateY(-5px) scale(1.02); }
-          100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .animate-springUp {
-          animation: springUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-        @keyframes shake {
-          0%, 100% { transform: rotate(0deg); }
-          25% { transform: rotate(10deg); }
-          75% { transform: rotate(-10deg); }
-        }
-        .group-hover\:animate-shake {
-           animation: shake 0.5s ease-in-out infinite;
-        }
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-        .animate-shimmer {
-          animation: shimmer 3s linear infinite;
-        }
-        .logo-spin {
-          animation: spin-slow 12s linear infinite;
-        }
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes wiggle {
-          0%, 100% { transform: rotate(0deg); }
-          25% { transform: rotate(-12deg); }
-          75% { transform: rotate(12deg); }
-        }
-        .animate-wiggle {
-          animation: wiggle 1s ease-in-out infinite;
-        }
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </nav>
   );
 }
 
-export default Navbar;
+const styles = `
+  @keyframes springUp {
+    0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+    70% { opacity: 1; transform: translateY(-5px) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .animate-springUp {
+    animation: springUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+  @keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(10deg); }
+    75% { transform: rotate(-10deg); }
+  }
+  .group-hover\\:animate-shake {
+     animation: shake 0.5s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .animate-shimmer {
+    animation: shimmer 3s linear infinite;
+  }
+  .logo-spin {
+    animation: spin-slow 12s linear infinite;
+  }
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-12deg); }
+    75% { transform: rotate(12deg); }
+  }
+  .animate-wiggle {
+    animation: wiggle 1s ease-in-out infinite;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const styleSheet = document.createElement("style");
+styleSheet.innerText = styles;
+document.head.appendChild(styleSheet);
+
+export default Navbar;

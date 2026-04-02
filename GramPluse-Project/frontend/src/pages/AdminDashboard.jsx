@@ -15,6 +15,7 @@ import {
 
 import GramSevakNavbar from '../components/GramSevak/GramSevakNavbar';
 import GramSevakSidebar from '../components/GramSevak/GramSevakSidebar';
+import BottomNavbar from '../components/BottomNavbar';
 
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
@@ -486,7 +487,7 @@ const GramSevakDashboard = () => {
         onClose={() => setIsSidebarOpen(false)}
       />
 
-      <div className="pt-24 md:ml-80 transition-all duration-500 ease-in-out pb-24 md:pb-12 px-4 sm:px-10 lg:px-14 bg-gradient-to-br from-white via-[#F0F7F2] to-[#E8F1EC] min-h-screen relative overflow-hidden">
+      <div className="pt-20 md:pt-24 md:ml-80 transition-all duration-500 ease-in-out pb-32 md:pb-12 px-4 sm:px-10 lg:px-14 bg-gradient-to-br from-white via-[#F0F7F2] to-[#E8F1EC] min-h-screen relative overflow-hidden">
         
         {/* Decorative Background Elements */}
         <div className="fixed top-0 right-72 w-[500px] h-[500px] bg-gradient-to-br from-emerald-200/20 to-teal-200/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none z-0"></div>
@@ -757,6 +758,7 @@ const GramSevakDashboard = () => {
         }
         .animate-slideDown { animation: slideDown 0.2s ease-out forwards; }
       `}</style>
+      <BottomNavbar />
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import api from '../utils/api';
 import { notifyError } from '../components/NotificationToast';
+import BottomNavbar from '../components/BottomNavbar';
 import {
   TrendingUp,
   Calendar,
@@ -201,7 +202,7 @@ function Dashboard() {
         - md:ml-72: Push right to avoid Sidebar overlap on Desktop.
         - transition: Smooth resize if sidebar were collapsible (optional).
       */}
-      <div className="pt-24 md:ml-72 transition-all duration-500 ease-in-out pb-20 px-3.5 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-[#F0F7F2] to-[#E8F1EC] min-h-screen relative overflow-hidden">
+      <div className="pt-20 md:pt-24 md:ml-72 transition-all duration-500 ease-in-out pb-32 md:pb-20 px-3.5 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-[#F0F7F2] to-[#E8F1EC] min-h-screen relative overflow-hidden">
 
         {/* Decorative Background Elements */}
         <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-emerald-200/20 to-teal-200/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none z-0"></div>
@@ -220,8 +221,8 @@ function Dashboard() {
               <h1 className="text-3xl sm:text-6xl font-black text-[#0B1A2C] leading-none mb-4 tracking-tighter">
                 {t('village', 'Village')} <span className="text-[#0C7779]">{t('issues', 'Issues')}</span>
               </h1>
-              <p className="text-base sm:text-lg text-gray-500 font-bold max-w-2xl leading-relaxed">
-                {t('dashboardSubtitle', 'Track, report, and solve community problems together. Your voice matters in building a better village.')}
+              <p className="text-base sm:text-lg text-gray-500 font-bold max-w-2xl leading-relaxed mt-2">
+                {t('dashboardSubtitle', 'Track, report, and solve community problems together.')}
               </p>
             </div>
 
@@ -376,103 +377,131 @@ function Dashboard() {
 
       {/* Gram Sabha Notice Popup */}
       {showNoticePopup && notices.length > 0 && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-2xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 flex flex-col max-h-[85vh]">
-            {/* Modal Header */}
-            <div className="bg-gradient-to-r from-orange-500 to-red-600 p-6 sm:p-8 text-white relative overflow-hidden shrink-0">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+        <div className="fixed inset-0 z-[2000] flex items-center justify-center p-0 sm:p-4 bg-black/70 backdrop-blur-xl animate-fadeIn">
+          <div className="relative w-full h-full sm:h-auto sm:max-w-xl bg-white sm:rounded-[3rem] shadow-2xl overflow-hidden border border-white/20 flex flex-col max-h-[100vh] sm:max-h-[90vh]">
+            
+            {/* Premium Header */}
+            <div className="bg-gradient-to-br from-orange-500 via-red-600 to-rose-700 p-8 sm:p-10 text-white relative shrink-0">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-black/10 rounded-full blur-xl"></div>
+              
               <div className="relative z-10 flex justify-between items-start">
-                <div>
-                  <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 border border-white/10">
-                    <Bell className="w-3 h-3 animate-wiggle" /> {t('officialNotice', 'Official Notice')}
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border border-white/10">
+                    <Megaphone className="w-3.5 h-3.5 animate-wiggle" /> {t('officialNotice', 'Official Notice')}
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-black tracking-tight">{t('gramsabhaNotice', 'Gram Sabha Notice')}</h3>
-                  <div className="flex items-center gap-2 mt-2 opacity-90 text-sm font-medium">
-                    <span className="bg-white/20 px-2 py-0.5 rounded text-xs">{currentNoticeIndex + 1} of {notices.length}</span>
-                    <span>•</span>
-                    <span>{t('useArrowsToNavigate', 'Use arrows to navigate')}</span>
-                  </div>
+                  <h3 className="text-3xl sm:text-4xl font-black tracking-tighter leading-tight">
+                    {t('gramsabhaNotice', 'Gram Sabha')} 
+                    <span className="block opacity-80 text-xl md:text-2xl">{t('villageMeeting', 'Community Gathering')}</span>
+                  </h3>
                 </div>
                 <button
                   onClick={() => setShowNoticePopup(false)}
-                  className="bg-white/20 hover:bg-white/30 backdrop-blur-md p-2 rounded-full transition-colors"
+                  className="bg-white/20 hover:bg-white/30 backdrop-blur-md p-3 rounded-2xl transition-all active:scale-90"
                 >
                   <X className="w-6 h-6" />
                 </button>
               </div>
             </div>
 
-            {/* Modal Content */}
-            <div className="p-6 sm:p-8 overflow-y-auto custom-scrollbar flex-1 bg-gradient-to-b from-orange-50 to-white">
-              <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-orange-100 mb-6">
-                {notices[currentNoticeIndex].agenda && (
-                  <h4 className="text-xl font-black text-gray-900 mb-4 font-display">
-                    {notices[currentNoticeIndex].agenda}
-                  </h4>
-                )}
-                {notices[currentNoticeIndex].message && (
-                  <p className="text-gray-600 leading-relaxed font-medium whitespace-pre-wrap">
-                    {notices[currentNoticeIndex].message}
-                  </p>
-                )}
-              </div>
+            {/* Scrollable Content Section */}
+            <div className="p-6 sm:p-10 overflow-y-auto custom-scrollbar flex-1 bg-gradient-to-b from-orange-50/30 to-white">
+              <div className="relative">
+                <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-500 to-transparent rounded-full opacity-20"></div>
+                
+                <div className="space-y-6">
+                  {notices[currentNoticeIndex].agenda && (
+                    <div className="space-y-2">
+                      <p className="text-[10px] font-black text-orange-600 uppercase tracking-widest">{t('meetingAgenda', 'Main Agenda')}</p>
+                      <h4 className="text-xl sm:text-2xl font-black text-gray-900 leading-snug">
+                        {notices[currentNoticeIndex].agenda}
+                      </h4>
+                    </div>
+                  )}
+                  
+                  {notices[currentNoticeIndex].message && (
+                    <div className="bg-white/50 backdrop-blur-sm rounded-3xl p-6 border border-orange-100 shadow-sm">
+                      <p className="text-gray-700 leading-relaxed font-medium whitespace-pre-wrap text-sm sm:text-base">
+                        {notices[currentNoticeIndex].message}
+                      </p>
+                    </div>
+                  )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-white p-4 rounded-2xl border border-gray-100 flex flex-col items-center text-center shadow-sm">
-                  <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center text-orange-600 mb-2">
-                    <Calendar className="w-5 h-5" />
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                    <div className="glass-panel p-4 rounded-2xl flex flex-col items-center text-center group hover:bg-orange-50 transition-colors">
+                      <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 mb-3 group-hover:rotate-6 transition-transform">
+                        <Calendar className="w-5 h-5" />
+                      </div>
+                      <span className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">{t('date')}</span>
+                      <span className="font-bold text-gray-900 mt-0.5 text-sm">
+                        {new Date(notices[currentNoticeIndex].date).toLocaleDateString()}
+                      </span>
+                    </div>
+                    
+                    <div className="glass-panel p-4 rounded-2xl flex flex-col items-center text-center group hover:bg-emerald-50 transition-colors">
+                      <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 mb-3 group-hover:rotate-6 transition-transform">
+                        <Clock className="w-5 h-5" />
+                      </div>
+                      <span className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">{t('time')}</span>
+                      <span className="font-bold text-gray-900 mt-0.5 text-sm">
+                        {notices[currentNoticeIndex].time}
+                      </span>
+                    </div>
+
+                    <div className="glass-panel p-4 rounded-2xl flex flex-col items-center text-center group hover:bg-blue-50 transition-colors">
+                      <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-3 group-hover:rotate-6 transition-transform">
+                        <MapPin className="w-5 h-5" />
+                      </div>
+                      <span className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">{t('location')}</span>
+                      <span className="font-bold text-gray-900 mt-0.5 text-sm truncate w-full px-2">
+                        {notices[currentNoticeIndex].location}
+                      </span>
+                    </div>
                   </div>
-                  <span className="text-xs font-bold text-gray-400 uppercase">{t('date')}</span>
-                  <span className="font-bold text-gray-900 mt-1">
-                    {new Date(notices[currentNoticeIndex].date).toLocaleDateString()}
-                  </span>
-                </div>
-                <div className="bg-white p-4 rounded-2xl border border-gray-100 flex flex-col items-center text-center shadow-sm">
-                  <div className="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 mb-2">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <span className="text-xs font-bold text-gray-400 uppercase">{t('time')}</span>
-                  <span className="font-bold text-gray-900 mt-1">
-                    {notices[currentNoticeIndex].time}
-                  </span>
-                </div>
-                <div className="bg-white p-4 rounded-2xl border border-gray-100 flex flex-col items-center text-center shadow-sm">
-                  <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 mb-2">
-                    <MapPin className="w-5 h-5" />
-                  </div>
-                  <span className="text-xs font-bold text-gray-400 uppercase">{t('location')}</span>
-                  <span className="font-bold text-gray-900 mt-1 text-sm">
-                    {notices[currentNoticeIndex].location}
-                  </span>
                 </div>
               </div>
             </div>
 
-            {/* Modal Footer (Controls) */}
-            <div className="p-4 border-t border-gray-100 bg-white shrink-0 flex justify-between items-center">
-              <button
-                onClick={handlePrevNotice}
-                disabled={currentNoticeIndex === 0}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-              >
-                <ChevronLeft className="w-5 h-5" /> {t('previous')}
-              </button>
-              <div className="flex gap-1 justify-center">
-                {notices.map((_, i) => (
-                  <div key={i} className={`w-2 h-2 rounded-full transition-all ${i === currentNoticeIndex ? 'bg-orange-500 w-6' : 'bg-gray-200'}`}></div>
-                ))}
+            {/* Smart Footer Navigation */}
+            <div className="px-6 py-6 border-t border-gray-100 bg-white shrink-0 flex flex-col gap-4">
+              <div className="flex justify-between items-center bg-gray-50 p-2 rounded-2xl">
+                <button
+                  onClick={handlePrevNotice}
+                  disabled={currentNoticeIndex === 0}
+                  className="p-3 rounded-xl font-bold bg-white text-gray-600 disabled:opacity-30 shadow-sm active:scale-95 transition-all"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+
+                <div className="flex gap-2 items-center">
+                  {notices.map((_, i) => (
+                    <div key={i} className={`h-1.5 rounded-full transition-all duration-500 ${i === currentNoticeIndex ? 'bg-orange-500 w-8' : 'bg-gray-200 w-2'}`}></div>
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleNextNotice}
+                  disabled={currentNoticeIndex === notices.length - 1}
+                  className="p-3 rounded-xl font-bold bg-[#0C7779] text-white disabled:opacity-30 shadow-lg active:scale-95 transition-all"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
               </div>
-              <button
-                onClick={handleNextNotice}
-                disabled={currentNoticeIndex === notices.length - 1}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold bg-gray-900 text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              
+              <button 
+                onClick={() => setShowNoticePopup(false)}
+                className="w-full py-4 bg-gray-900 text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-xl active:scale-98 transition-transform"
               >
-                {t('next')} <ChevronRight className="w-5 h-5" />
+                {t('understand', 'Confirm Attendance')}
               </button>
             </div>
           </div>
         </div>
       )}
+
+
+      {/* Bottom Navigation for Mobile */}
+      <BottomNavbar onGramSabhaClick={handleGramSabhaClick} />
 
       <style>{`
         @keyframes fadeInUp {

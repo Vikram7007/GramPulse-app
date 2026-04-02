@@ -46,6 +46,7 @@ import VillageAdminSidebar from "../components/VillageAdmin/admin/VillageAdminSi
 import GramSabhaNoticePanel from "../components/VillageAdmin/admin/GramSabhaNoticePanel";
 import VillageAdminReportsPanel from "../components/VillageAdmin/admin/VillageAdminReportsPanel";
 import VillageAdminSettingsPanel from "../components/VillageAdmin/admin/VillageAdminSettingsPanel";
+import BottomNavbar from "../components/BottomNavbar";
 
 // Modals
 import CompletedDetailModal from "../components/VillageAdmin/modals/CompletedDetailModal";
@@ -360,7 +361,7 @@ const VillageAdminDashboard = () => {
         setOpen={setIsSidebarOpen}
       />
 
-      <div className="pt-20 md:ml-72 min-h-screen transition-all duration-300 relative">
+      <div className="pt-20 md:ml-72 min-h-screen transition-all duration-300 relative pb-32 md:pb-0">
         <main className="p-4 sm:p-6 lg:p-8 space-y-8 animate-fade-in overflow-hidden">
           
           {activePanel === 'dashboard' && (
@@ -735,6 +736,7 @@ const VillageAdminDashboard = () => {
         onClose={() => setShowCompletedDetailModal(false)}
       />
 
+      <BottomNavbar />
     </div>
   );
 };

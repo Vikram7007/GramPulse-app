@@ -10,6 +10,7 @@ import {
   Loader2, Navigation, Lightbulb, Droplets, Truck,
   Trash2, Footprints, AlertTriangle, FileText, X
 } from 'lucide-react';
+import BottomNavbar from '../components/BottomNavbar';
 
 function SubmitIssue() {
   const { t } = useTranslation();
@@ -137,16 +138,15 @@ function SubmitIssue() {
         <Sidebar />
       </div>
 
-      <div className="min-h-screen bg-light-50 pt-20 pb-12 px-4 sm:px-6 lg:px-8 transition-colors duration-500">
+      <div className="min-h-screen bg-light-50 pt-16 md:pt-20 pb-32 md:pb-12 px-4 sm:px-6 lg:px-8 transition-colors duration-500">
         <div className="max-w-4xl mx-auto lg:ml-[350px]">
 
-          {/* Header */}
-          <div className="mb-10 text-center lg:text-left">
-            <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 mb-2 font-display">
+          <div className="mb-6 sm:mb-10 text-center lg:text-left">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 mb-2 font-display">
               {t('newIssue')}
             </h1>
-            <p className="text-gray-600 text-lg">
-              Help us improve the village by reporting issues correctly.
+            <p className="text-gray-600 text-sm sm:text-lg">
+              {t('submitDescription') || "Help us improve the village by reporting issues correctly."}
             </p>
           </div>
 
@@ -359,6 +359,9 @@ function SubmitIssue() {
           </div>
         </div>
       </div>
+      
+      {/* Bottom Navigation for Mobile */}
+      <BottomNavbar />
     </>
   );
 }
