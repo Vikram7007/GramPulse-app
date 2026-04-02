@@ -104,124 +104,94 @@ const AuthModal = ({ onLoginSuccess }) => {
     }
   };
 
-  const handleForgot = async () => {
-    if (!forgotUsername) return notifyError(t("error.fillFields"));
-    try {
-      const res = await api.post("/auth/forgot-password", { username: forgotUsername });
-      notifySuccess(res.data.message);
-      setView("login");
-    } catch (err) {
-      notifyError(err.response?.data?.message || t("error.somethingWentWrong"));
-    }
-  };
-
   return (
-    <div className="fixed inset-0 z-[100] flex overflow-hidden bg-white font-sans">
-      <div className="hidden lg:flex w-5/12 bg-emerald-950 relative items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1623945199859-6e3e1174092b?q=80&w=1920&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/95 via-green-900/90 to-teal-900/90"></div>
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-teal-500/20 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
-
-        <div className="relative z-10 p-12 text-center text-white">
-          <div className="w-24 h-24 bg-white/10 backdrop-blur-md rounded-3xl mx-auto mb-8 flex items-center justify-center border border-white/20 shadow-2xl skew-y-3">
-            <Building2 className="w-12 h-12 text-emerald-300 -skew-y-3" />
-          </div>
-          <h1 className="text-5xl font-black mb-6 tracking-tight drop-shadow-lg">Sarpanch<span className="text-emerald-300">Hub</span></h1>
-          <p className="text-emerald-100/90 text-lg leading-relaxed max-w-md mx-auto font-medium">
-            Advanced governance platform. Monitor progress, manage issues, and unite your community.
-          </p>
-        </div>
-      </div>
-
-      <div className="w-full lg:w-7/12 flex items-center justify-center p-6 bg-gray-50 relative">
-        <button onClick={() => navigate('/')} className="absolute top-8 left-8 flex items-center gap-2 text-gray-400 hover:text-emerald-600 transition-colors font-bold text-sm">
-          <ArrowLeft className="w-4 h-4" /> Back to Home
+    <div className="fixed inset-0 z-[1000] bg-brand-dark flex flex-col font-sans overflow-y-auto hide-scrollbar">
+      {/* Background Decor */}
+      <div className="fixed top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+      
+      <div className="relative flex-1 flex flex-col items-center justify-center p-4 min-h-screen">
+        <button 
+          onClick={() => navigate('/')} 
+          className="absolute top-6 left-6 flex items-center gap-2 text-white/50 hover:text-white transition-all font-bold text-xs bg-white/5 px-4 py-2 rounded-xl border border-white/5"
+        >
+          <ArrowLeft className="w-4 h-4" /> Exit
         </button>
 
-        <div className="w-full max-w-md bg-white p-10 rounded-[2.5rem] shadow-2xl shadow-emerald-900/10 border border-white relative overflow-hidden">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-black text-gray-900 mb-2">
-              {view === 'login' ? 'Sarpanch Login' : view === 'signup' ? 'Admin Registration' : 'Restoration'}
-            </h2>
-            <p className="text-gray-500 font-medium">
-              {view === 'login' ? 'Access your administrative dashboard' : view === 'signup' ? 'Create a secure admin profile' : 'Recover your account access'}
-            </p>
+        <div className="w-full max-w-sm">
+          <div className="text-center mb-10 space-y-4">
+             <div className="w-20 h-20 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl mx-auto flex items-center justify-center shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
+                <Shield className="w-10 h-10 text-emerald-400 -rotate-3 hover:rotate-0 transition-transform duration-500" />
+             </div>
+             <div>
+                <h1 className="text-3xl font-black text-white tracking-tight">Sarpanch<span className="text-emerald-400">Hub</span></h1>
+                <p className="text-white/40 text-xs font-bold uppercase tracking-widest mt-1">Grievance Management System</p>
+             </div>
           </div>
 
-          <form className="space-y-5" onSubmit={view === 'login' ? handleLogin : (e) => e.preventDefault()}>
-            {view === 'login' && (
-              <>
-                <div className="space-y-4">
-                  <div className="relative group">
-                    <User className="absolute left-4 top-4 w-5 h-5 text-gray-400 group-focus-within:text-emerald-600 transition-colors" />
-                    <input
-                      type="text"
-                      className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border-2 border-gray-100 rounded-xl focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all font-bold text-gray-700 placeholder-gray-400"
-                      placeholder="Username"
-                      value={username}
-                      onChange={e => setUsername(e.target.value)}
-                    />
-                  </div>
-                  <div>
+          <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-4xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+            <h2 className="text-xl font-black text-white mb-6">
+              {view === 'login' ? 'Official Login' : 'Village Registration'}
+            </h2>
+
+            <form className="space-y-4" onSubmit={view === 'login' ? handleLogin : (e) => e.preventDefault()}>
+              {view === 'login' ? (
+                <>
+                  <div className="space-y-4">
                     <div className="relative group">
-                      <Lock className="absolute left-4 top-4 w-5 h-5 text-gray-400 group-focus-within:text-emerald-600 transition-colors" />
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-emerald-400 transition-colors" />
+                      <input
+                        type="text"
+                        className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-white/10 focus:border-emerald-500/50 outline-none transition-all font-bold text-white placeholder-white/20 text-sm"
+                        placeholder="Admin Username"
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                      />
+                    </div>
+                    <div className="relative group">
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-emerald-400 transition-colors" />
                       <input
                         type="password"
-                        className="w-full pl-12 pr-4 py-4 bg-gray-50/50 border-2 border-gray-100 rounded-xl focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all font-bold text-gray-700 placeholder-gray-400"
-                        placeholder="Password"
+                        className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-white/10 focus:border-emerald-500/50 outline-none transition-all font-bold text-white placeholder-white/20 text-sm"
+                        placeholder="Secret Password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                       />
                     </div>
-                    <div className="flex justify-end mt-2">
-                      <button type="button" onClick={() => setView('forgot')} className="text-sm font-bold text-emerald-600 hover:text-emerald-700 hover:underline">Forgot password?</button>
-                    </div>
                   </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-black text-sm uppercase tracking-widest rounded-2xl shadow-xl shadow-emerald-950/20 active:scale-95 transition-all flex items-center justify-center gap-3"
+                  >
+                    {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Enter Dashboard'}
+                  </button>
+                </>
+              ) : (
+                <div className="space-y-4">
+                  <input type="text" placeholder="Full Admin Name" className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold outline-none text-sm focus:border-emerald-500/50" value={signupName} onChange={e => setSignupName(e.target.value)} />
+                  <input type="text" placeholder="Username" className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold outline-none text-sm focus:border-emerald-500/50" value={signupUsername} onChange={e => setSignupUsername(e.target.value)} />
+                  <input type="password" placeholder="Password" className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold outline-none text-sm focus:border-emerald-500/50" value={signupPassword} onChange={e => setSignupPassword(e.target.value)} />
+                  <button type="button" onClick={handleSignup} className="w-full py-4 bg-emerald-500 text-white font-black text-sm uppercase tracking-widest rounded-2xl shadow-xl active:scale-95 transition-all">Register Admin</button>
                 </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg hover:shadow-emerald-500/30 transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-3"
-                >
-                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
-                  {loading ? "Verifying..." : "Access Dashboard"}
-                </button>
-              </>
-            )}
+              )}
+            </form>
 
-            {view === 'signup' && (
-              <div className="space-y-4">
-                <input type="text" placeholder="Full Name" className="w-full px-5 py-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:border-emerald-500 font-bold outline-none" value={signupName} onChange={e => setSignupName(e.target.value)} />
-                <input type="text" placeholder="Username" className="w-full px-5 py-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:border-emerald-500 font-bold outline-none" value={signupUsername} onChange={e => setSignupUsername(e.target.value)} />
-                <input type="password" placeholder="Password" className="w-full px-5 py-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:border-emerald-500 font-bold outline-none" value={signupPassword} onChange={e => setSignupPassword(e.target.value)} />
-                <button type="button" onClick={handleSignup} className="w-full py-4 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all shadow-lg">Register Admin</button>
-              </div>
-            )}
-
-            {view === 'forgot' && (
-              <div className="space-y-4">
-                <div className="relative group">
-                  <Mail className="absolute left-4 top-4 w-5 h-5 text-gray-400 group-focus-within:text-emerald-600 transition-colors" />
-                  <input type="text" placeholder="Registered Username" className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:border-emerald-500 font-bold outline-none" value={forgotUsername} onChange={e => setForgotUsername(e.target.value)} />
-                </div>
-                <button type="button" onClick={handleForgot} className="w-full py-4 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all shadow-lg">Send Link</button>
-              </div>
-            )}
-          </form>
-
-          <div className="mt-8 text-center pt-6 border-t border-gray-100">
-            {view === 'login' ? (
-              <p className="text-gray-500 font-medium">New Village? <button onClick={() => setView('signup')} className="text-emerald-600 font-bold hover:underline">Register Village</button></p>
-            ) : (
-              <button onClick={() => setView('login')} className="text-emerald-600 font-bold hover:underline flex items-center gap-2 mx-auto"><ArrowLeft className="w-4 h-4" /> Cancel</button>
-            )}
+            <div className="mt-8 pt-6 border-t border-white/5 text-center">
+              {view === 'login' ? (
+                <p className="text-white/40 text-xs font-bold">
+                  Restricted Access. <button onClick={() => setView('signup')} className="text-emerald-400 hover:underline">New Village?</button>
+                </p>
+              ) : (
+                <button onClick={() => setView('login')} className="text-emerald-400 text-xs font-bold hover:underline flex items-center gap-2 mx-auto"><ArrowLeft className="w-4 h-4" /> Back to Login</button>
+              )}
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 };
+
 
 // ==================== MAIN DASHBOARD ====================
 const VillageAdminDashboard = () => {
@@ -346,7 +316,7 @@ const VillageAdminDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F0F4F2] font-sans selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden">
+    <div className="min-h-screen bg-light-50 font-sans selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden">
       <VillageAdminNavbar 
         adminNameProp={currentUsername} 
         onGramSabhaClick={() => setShowNoticeSlider(true)} 
@@ -361,380 +331,149 @@ const VillageAdminDashboard = () => {
         setOpen={setIsSidebarOpen}
       />
 
-      <div className="pt-20 md:ml-72 min-h-screen transition-all duration-300 relative pb-32 md:pb-0">
-        <main className="p-4 sm:p-6 lg:p-8 space-y-8 animate-fade-in overflow-hidden">
+      <div className="pt-20 md:ml-72 min-h-screen transition-all duration-300 relative pb-32 md:pb-12 px-4 sm:px-6">
+        <main className="max-w-7xl mx-auto py-6 space-y-8 animate-fade-in">
           
           {activePanel === 'dashboard' && (
             <>
-              {/* Header Section - Premium Banner */}
-          <section className="relative overflow-hidden rounded-[2.5rem] bg-emerald-900 px-8 py-10 text-white shadow-2xl">
-            <div className="absolute top-0 right-0 h-full w-1/3 bg-gradient-to-l from-emerald-500/20 to-transparent"></div>
-            <div className="absolute -bottom-12 -right-12 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl"></div>
-            
-            <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
-              <div className="space-y-2 text-center md:text-left">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-800/50 border border-emerald-700/50 text-emerald-300 text-xs font-bold uppercase tracking-wider">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  {t('sarpanchAdmin', 'Sarpanch Administration')}
-                </div>
-                <h1 className="text-3xl md:text-4xl font-black tracking-tight">
-                  {t('welcomeBack', 'Welcome back')}, <span className="text-emerald-400">{currentUsername}</span>
-                </h1>
-                <p className="text-emerald-100/70 font-medium max-w-xl">
-                  {t('monitoringVillage', 'Monitoring village progress and managing community issues. You have {{count}} pending tasks to review today.', { count: stats.active })}
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                <button 
-                  onClick={() => setShowNoticeModal(true)}
-                  className="group flex items-center gap-2 px-6 py-3.5 bg-white text-emerald-900 rounded-2xl font-bold shadow-lg hover:shadow-emerald-500/20 transition-all hover:-translate-y-1 active:scale-95"
-                >
-                  <Bell className="w-5 h-5 group-hover:animate-bounce" /> {t('postNotice', 'Post Notice')}
-                </button>
-              </div>
-            </div>
-          </section>
-
-          {/* Key Metrics Dashboard */}
-          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { label: t('communityReports', 'Community Reports'), value: stats.total, icon: LayoutDashboard, color: "text-blue-600", bg: "bg-blue-50", trend: "+12%" },
-              { label: t('issuesResolved', 'Issues Resolved'), value: stats.completed, icon: CheckCircle, color: "text-emerald-600", bg: "bg-emerald-50", trend: "+8%" },
-              { label: t('pendingReview', 'Pending Review'), value: stats.active, icon: Clock, color: "text-amber-600", bg: "bg-amber-50", trend: "-5%" },
-              { label: t('criticalPriority', 'Critical Priority'), value: stats.highPriority, icon: AlertTriangle, color: "text-red-600", bg: "bg-red-50", trend: "+2" },
-            ].map((stat, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-emerald-100 transition-all duration-300">
-                <div className="flex justify-between items-center mb-4">
-                  <div className={`p-3 rounded-2xl ${stat.bg} ${stat.color}`}>
-                    <stat.icon className="w-6 h-6" />
+              {/* Premium Android-style Header */}
+              <section className="bg-brand-dark rounded-4xl p-6 sm:p-10 text-white relative overflow-hidden shadow-2xl">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                <div className="relative z-10 space-y-4">
+                  <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest text-emerald-400">
+                    <Shield className="w-3 h-3" /> Sarpanch Dashboard
                   </div>
-                  <span className={`text-xs font-bold px-2 py-1 rounded-lg ${stat.trend.startsWith('+') ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
-                    {stat.trend}
-                  </span>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-gray-500 font-bold text-xs uppercase tracking-wider">{stat.label}</p>
-                  <h3 className="text-3xl font-black text-gray-900">{stat.value}</h3>
-                </div>
-              </div>
-            ))}
-          </section>
-
-          {/* Main Content Layout */}
-          <div className="w-full">
-            
-            {/* Full Width Issues List */}
-            <section className="space-y-6 w-full">
-              <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 bg-gray-50/50 p-4 rounded-3xl border border-gray-100 mb-6">
-                <h2 className="text-xl leading-tight font-black text-[#0B1A2C] flex items-start gap-2 min-w-max">
-                  <AlertTriangle className="w-5 h-5 text-amber-500 mt-1" />
-                  <div>
-                    {t('priorityAttention', 'Priority Attention Needed')}
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-none">
+                    Namaste, <span className="text-emerald-400 block sm:inline">{currentUsername}</span>
+                  </h1>
+                  <p className="text-white/50 text-sm font-medium max-w-lg leading-relaxed">
+                    You have <span className="text-white font-black">{stats.active}</span> reports awaiting your attention today.
+                  </p>
+                  <div className="pt-2">
+                    <button 
+                      onClick={() => setShowNoticeModal(true)}
+                      className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white px-6 py-3.5 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg active:scale-95"
+                    >
+                      <Bell className="w-4 h-4" /> Post Notice
+                    </button>
                   </div>
-                </h2>
-                
-                {/* Tabs & Search */}
-                <div className="flex flex-col md:flex-row items-center gap-4 w-full xl:w-auto">
-                  <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+                </div>
+              </section>
+
+              {/* Metrics Grid */}
+              <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  { label: "Reports", value: stats.total, icon: FileText, color: "text-blue-500", bg: "bg-blue-50/50" },
+                  { label: "Solved", value: stats.completed, icon: CheckCircle, color: "text-emerald-500", bg: "bg-emerald-50/50" },
+                  { label: "Pending", value: stats.active, icon: Clock, color: "text-amber-500", bg: "bg-amber-50/50" },
+                  { label: "Critical", value: stats.highPriority, icon: AlertTriangle, color: "text-rose-500", bg: "bg-rose-50/50" },
+                ].map((stat, idx) => (
+                  <div key={idx} className="bg-white p-4 sm:p-6 rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:border-emerald-200 transition-all cursor-default">
+                    <div className={`p-3 rounded-2xl ${stat.bg} ${stat.color} mb-3 group-hover:scale-110 transition-transform`}>
+                      <stat.icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                    </div>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">{stat.label}</p>
+                    <h3 className="text-xl sm:text-2xl font-black text-gray-900">{stat.value}</h3>
+                  </div>
+                ))}
+              </section>
+
+              {/* Issues Section */}
+              <section className="space-y-6">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 py-2">
+                  <h2 className="text-xl font-black text-dark-900 flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5 text-amber-500" /> Community Grievances
+                  </h2>
+                  <div className="flex gap-2 overflow-x-auto hide-scrollbar w-full sm:w-auto">
                     {userTabs.map(tab => (
                       <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`px-6 py-2.5 rounded-xl font-bold text-[13px] transition-all whitespace-nowrap shadow-sm ${activeTab === tab.id
-                          ? 'bg-[#0B8A5A] text-white'
-                          : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-50'
-                          }`}
+                        className={`px-5 py-2 rounded-xl text-xs font-black whitespace-nowrap transition-all ${activeTab === tab.id ? 'bg-brand-dark text-white' : 'bg-gray-100 text-gray-400'}`}
                       >
                         {tab.label}
                       </button>
                     ))}
                   </div>
-
-                  <div className="relative w-full md:w-64 flex-shrink-0">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input 
-                      type="text" 
-                      placeholder={t('searchIssuesPlaceholder', 'Search issues...')}
-                      className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:border-[#0B8A5A] focus:ring-4 focus:ring-[#0B8A5A]/10 transition-all outline-none font-bold text-sm"
-                    />
-                  </div>
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {loading ? (
-                  <div className="col-span-full h-64 flex items-center justify-center">
-                    <Loader2 className="w-12 h-12 animate-spin text-emerald-500" />
-                  </div>
-                ) : (() => {
-                  const filteredIssuesForDisplay = issues.filter(i => {
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {loading ? (
+                    <div className="col-span-full py-20 flex justify-center"><Loader2 className="w-10 h-10 animate-spin text-emerald-500" /></div>
+                  ) : issues.filter(i => {
                     if (activeTab === 'pending') return i.status === 'pending';
                     if (activeTab === 'assigned') return i.status === 'in-progress';
                     if (activeTab === 'completed') return i.status === 'Completed' || i.status === 'approved';
                     if (activeTab === 'rejected') return i.status === 'Issue' || i.status === 'rejected';
                     return true;
-                  });
-
-                  return filteredIssuesForDisplay.length === 0 ? (
-                    <div className="col-span-full bg-white rounded-[2rem] p-12 text-center border-2 border-dashed border-gray-100">
-                      <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <CheckCircle className="w-10 h-10 text-emerald-500" />
-                      </div>
-                      <h3 className="text-xl font-bold text-gray-900">{t('allIssuesProcessed', 'All Issues Processed')}</h3>
-                      <p className="text-gray-500">{t('noIssuesInCategory', 'There are no {{category}} issues.', { category: activeTab === 'all' ? t('pending', 'pending') : activeTab })}</p>
+                  }).length === 0 ? (
+                    <div className="col-span-full bg-white rounded-4xl p-10 text-center border-2 border-dashed border-gray-100">
+                      <p className="text-gray-400 font-bold">No reports in this category.</p>
                     </div>
-                  ) : (
-                    filteredIssuesForDisplay.slice(0, 10).map((issue) => (
-                    <div key={issue._id} className="group bg-white rounded-[2rem] p-5 border border-emerald-100/50 shadow-sm hover:shadow-xl hover:border-emerald-300/60 transition-all duration-300 flex flex-col h-full">
-                      
-                      {/* Flex Header: Date */}
-                      <div className="flex justify-between items-center mb-4">
-                         <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-gray-400 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">
-                           <Calendar className="w-3.5 h-3.5 text-gray-300" /> 
-                           {new Date(issue.createdAt).toLocaleDateString('en-GB')}
-                         </span>
-                      </div>
-
-                      {/* Image Layer with Floating Badges */}
-                      <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gray-50 mb-5 flex items-center justify-center shadow-sm relative group-hover:shadow-md transition-all">
-                         {issue.images && issue.images.length > 0 ? (
-                           <img src={issue.images[0]} alt="Issue" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                         ) : (
-                           <div className="flex flex-col items-center text-gray-300">
-                             <FileText className="w-10 h-10 mb-2 opacity-50" />
-                             <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">No Image</span>
-                           </div>
-                         )}
-
-                         {/* Floating Top Left: Status Badge */}
-                         <div className="absolute top-3 left-3">
-                             <div className={`px-3 py-1.5 rounded-xl text-[10px] sm:text-[11px] font-black uppercase tracking-wider shadow-sm border flex items-center gap-1.5 backdrop-blur-md ${
-                                issue.status === 'in-progress' ? 'bg-indigo-600/95 text-white border-indigo-400/50' :
-                                issue.status === 'Completed' || issue.status === 'approved' ? 'bg-[#0B8A5A]/95 text-white border-emerald-400/50' :
-                                (issue.status === 'Issue' || issue.status === 'rejected') ? 'bg-rose-500/95 text-white border-rose-400/50' :
-                                'bg-amber-500/95 text-white border-amber-400/50'
-                             }`}>
-                               {issue.status === 'in-progress' ? <User className="w-3.5 h-3.5" /> : 
-                                issue.status === 'Completed' || issue.status === 'approved' ? <CheckCircle className="w-3.5 h-3.5" /> : 
-                                (issue.status === 'Issue' || issue.status === 'rejected') ? <X className="w-3.5 h-3.5" /> : 
-                                <AlertTriangle className="w-3.5 h-3.5" />}
-                               
-                               {issue.status === 'in-progress' ? t('assigned', 'Assigned') : 
-                                issue.status === 'Completed' || issue.status === 'approved' ? t('approved', 'Approved') : 
-                                (issue.status === 'Issue' || issue.status === 'rejected') ? t('rejected', 'Rejected') : t('pending', 'Pending')}
-                             </div>
-                         </div>
-
-                         {/* Floating Top Right: Priority Badge */}
-                         <div className="absolute top-3 right-3">
-                           <div className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider text-white shadow-sm flex items-center gap-1 backdrop-blur-md ${
-                              issue.priority === 'high' ? 'bg-[#EF4444]/95 border border-red-400/50' : issue.priority === 'medium' ? 'bg-amber-500/95 border border-amber-400/50' : 'bg-[#10B981]/95 border border-emerald-400/50'
-                            }`}>
-                              {issue.priority === 'high' ? <AlertTriangle className="w-3 h-3" /> : null}
-                              {issue.priority}
-                           </div>
-                         </div>
-
-                         {/* Floating Bottom Left: Votes */}
-                         <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-xl text-[12px] font-bold text-[#0B4A3A] flex items-center gap-1.5 shadow-sm border border-white/50">
-                           <TrendingUp className="w-3.5 h-3.5 text-[#10B981]" /> 
-                           {issue.votes?.length || 0} {t('votes', 'Votes')}
-                         </div>
-                      </div>
-
-                      <div className="flex flex-col flex-grow">
-                         <h3 className="text-xl font-black text-[#0B8A5A] group-hover:text-emerald-700 transition-colors mb-2 line-clamp-1">
-                           {issue.type || issue.title || t('unknownIssue', 'Unknown Issue')}
-                         </h3>
-                         <p className="text-gray-500 font-medium text-[15px] leading-relaxed line-clamp-3 mb-5 text-justify">
-                           {issue.description}
-                         </p>
-                      </div>
-
-                      {/* Action Buttons (Bottom) */}
-                      <div className="mt-auto pt-4 border-t border-gray-100 flex items-center gap-2">
-                         <button 
-                           onClick={() => { setSelectedIssue(issue); setSelectedPriority(issue.priority); setShowSendModal(true); }}
-                           className="flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 px-3 py-3 bg-blue-50/50 text-blue-700 rounded-xl hover:bg-blue-100 hover:text-blue-800 transition-all font-black text-[13px] active:scale-95 border border-transparent hover:border-blue-200"
-                         >
-                           <UserPlus className="w-3.5 h-3.5" /> {t('assign', 'Assign')}
-                         </button>
-                         <button 
-                           onClick={() => handleReject(issue._id)}
-                           className="flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 px-3 py-3 bg-white border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-black text-[13px] active:scale-95"
-                         >
-                           <X className="w-3.5 h-3.5" /> {t('reject', 'Reject')}
-                         </button>
-                         <button 
-                           onClick={() => handleApprove(issue._id)}
-                           className="flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 px-3 py-3 bg-[#0B8A5A] text-white rounded-xl shadow-md shadow-emerald-200 hover:bg-[#076a44] transition-all font-black text-[13px] active:scale-95 border border-transparent"
-                         >
-                           <Check className="w-3.5 h-3.5" /> {t('approve', 'Approve')}
-                         </button>
-                         <button className="px-3 py-3 bg-gray-50 hover:bg-gray-100 text-gray-500 rounded-xl transition-all border border-gray-100 shadow-sm flex-shrink-0">
-                           <MoreHorizontal className="w-4 h-4" />
-                         </button>
-                      </div>
+                  ) : issues.filter(i => {
+                    if (activeTab === 'pending') return i.status === 'pending';
+                    if (activeTab === 'assigned') return i.status === 'in-progress';
+                    if (activeTab === 'completed') return i.status === 'Completed' || i.status === 'approved';
+                    if (activeTab === 'rejected') return i.status === 'Issue' || i.status === 'rejected';
+                    return true;
+                  }).map(issue => (
+                    <div key={issue._id} className="mobile-card !p-4 flex flex-col group h-full">
+                       <div className="relative aspect-[16/10] bg-gray-50 rounded-2xl overflow-hidden mb-4">
+                          {issue.images?.[0] ? (
+                            <img src={issue.images[0]} alt="issue" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-200"><FileText className="w-12 h-12" /></div>
+                          )}
+                          <div className="absolute top-2 left-2">
+                             <span className={`px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest text-white shadow-lg ${issue.priority === 'high' ? 'bg-rose-500' : issue.priority === 'medium' ? 'bg-amber-500' : 'bg-emerald-500'}`}>
+                                {issue.priority}
+                             </span>
+                          </div>
+                       </div>
+                       <div className="flex-1">
+                          <h3 className="text-lg font-black text-dark-900 mb-2 truncate">{issue.title || issue.type}</h3>
+                          <p className="text-sm text-gray-500 font-medium line-clamp-2 mb-4">{issue.description}</p>
+                       </div>
+                       <div className="pt-4 border-t border-gray-50 grid grid-cols-2 gap-2">
+                          <button onClick={() => { setSelectedIssue(issue); setShowSendModal(true); }} className="py-2.5 bg-blue-50 text-blue-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-100 transition-all">Assign</button>
+                          <button onClick={() => handleApprove(issue._id)} className="py-2.5 bg-brand-dark text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-800 transition-all">Approve</button>
+                       </div>
                     </div>
-                  ))
-                );
-              })()}
-              </div>
-                
-              <div className="mt-8">
-                <button className="w-full py-4 text-gray-500 font-bold text-sm bg-white/50 border border-dashed border-gray-300 rounded-2xl hover:bg-white hover:border-emerald-300 hover:text-emerald-600 transition-all">
-                  {t('loadMore', 'Load More Issues')}
-                </button>
-              </div>
-            </section>
-          </div>
-
-          {/* Gramsevak Resolved section has been moved to its own dedicated panel */}
+                  ))}
+                </div>
+              </section>
             </>
           )}
 
           {activePanel === 'gramsevaks' && (
-            <div className="animate-fade-in-up">
-              <section className="bg-white/40 p-6 sm:p-8 rounded-[3rem] border border-white shadow-sm backdrop-blur-sm">
-                <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 mb-8">
-                  <div>
-                    <h2 className="text-2xl sm:text-3xl font-black text-[#0B1A2C] flex items-center gap-3">
-                      <CheckCircle className="w-8 h-8 text-[#0B8A5A]" /> {t('gramsevakResolvedHead', 'Gramsevak Resolved')}
-                    </h2>
-                    <p className="text-sm font-medium text-gray-500 mt-2">{t('gramsevakResolvedDesc', 'Issues recently addressed and marked completed by assigned Gram Sevaks.')}</p>
-                  </div>
-                  
-                  {/* Weekly Filter Tabs */}
-                   <div className="flex bg-gray-100/80 p-1.5 rounded-2xl shadow-inner border border-gray-200 w-full xl:w-auto overflow-x-auto scrollbar-hide">
-                      {[
-                        { id: 'all', label: 'All Time' },
-                        { id: 'this-month', label: 'This Month' },
-                        { id: 'this-week', label: 'This Week' }
-                      ].map(filter => (
-                        <button
-                          key={filter.id}
-                          onClick={() => setResolvedFilter(filter.id)}
-                          className={`px-6 py-2.5 rounded-xl text-[13px] font-black tracking-wide whitespace-nowrap transition-all ${resolvedFilter === filter.id ? 'bg-white text-[#0B8A5A] shadow-md border border-white' : 'text-gray-500 hover:text-gray-700 hover:bg-white/50 border border-transparent'}`}
-                        >
-                          {filter.label}
-                        </button>
-                      ))}
-                   </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {(() => {
-                    // Apply filter locally
-                    let filtered = [...gramsevakCompletedIssues];
-                    const now = new Date();
-                    
-                    if (resolvedFilter === 'this-week') {
-                      const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-                      filtered = filtered.filter(i => new Date(i.updatedAt || i.createdAt) >= oneWeekAgo);
-                    } else if (resolvedFilter === 'this-month') {
-                      const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-                      filtered = filtered.filter(i => new Date(i.updatedAt || i.createdAt) >= oneMonthAgo);
-                    }
-                    
-                    filtered.sort((a, b) => new Date(b.updatedAt || b.createdAt) - new Date(a.updatedAt || a.createdAt));
-
-                    if (filtered.length === 0) {
-                      return (
-                         <div className="col-span-full text-center py-20 bg-white/50 rounded-[2rem] border-2 border-dashed border-gray-200">
-                            <CheckCircle className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                            <p className="text-gray-500 font-bold text-lg">No resolved activity available for this period</p>
-                         </div>
-                      );
-                    }
-
-                    return filtered.map((issue, idx) => (
-                      <div key={idx} onClick={() => { setSelectedCompletedIssue(issue); setShowCompletedDetailModal(true); }} className="bg-white rounded-[2rem] p-6 sm:p-7 border-2 border-transparent hover:border-emerald-500/20 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group flex flex-col justify-between h-full relative overflow-hidden">
-                        {/* Background Accent */}
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-emerald-50 to-transparent rounded-bl-[100px] -z-10 group-hover:scale-110 group-hover:from-emerald-100 transition-all duration-500"></div>
-
-                        <div className="z-10">
-                          <div className="flex justify-between items-start mb-6">
-                            <div className="w-14 h-14 bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl flex items-center justify-center text-emerald-500 group-hover:from-emerald-500 group-hover:to-green-500 group-hover:text-white transition-all shadow-sm border border-emerald-100 group-hover:border-emerald-500">
-                              <CheckCircle className="w-7 h-7" />
-                            </div>
-                            <span className="text-[12px] font-black tracking-widest text-[#0B8A5A] bg-emerald-50/50 border border-emerald-100 px-4 py-2 flex items-center gap-2 rounded-xl shadow-sm backdrop-blur-sm group-hover:bg-emerald-100 transition-colors">
-                              <Calendar className="w-3.5 h-3.5" />
-                              {new Date(issue.updatedAt || issue.createdAt).toLocaleDateString('en-GB')}
-                            </span>
-                          </div>
-
-                          <div className="mb-6">
-                            <h4 className="text-xl font-black text-[#0B1A2C] mb-3 line-clamp-1 group-hover:text-[#0B8A5A] transition-colors">{issue.type || issue.title || "Resolved Issue"}</h4>
-                            <p className="text-[15px] text-gray-500 line-clamp-3 leading-relaxed font-medium text-justify">{issue.description}</p>
-                          </div>
-                        </div>
-
-                        {/* Bottom Section */}
-                        <div className="pt-5 mt-auto border-t border-gray-100 flex items-center justify-between z-10 group-hover:border-emerald-100 transition-colors">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-sm font-black text-[#0B1A2C] border-2 border-white shadow-sm">
-                               {issue.assignedTo?.[0] || "G"}
-                            </div>
-                            <div className="flex flex-col">
-                              <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-emerald-500/70 transition-colors">Gram Sevak</span>
-                              <span className="text-[14px] font-black text-[#0B1A2C] leading-none mt-1">{issue.assignedTo?.split(' ')[0] || "Rajesh"}</span>
-                            </div>
-                          </div>
-                          <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-emerald-500 transition-colors shadow-sm border border-gray-100 group-hover:border-emerald-500">
-                            <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-                          </div>
-                        </div>
-                      </div>
-                    ));
-                  })()}
-                </div>
-              </section>
+            <div className="animate-fade-in space-y-6">
+               <h2 className="text-2xl font-black text-dark-900">{t('gramsevakResolvedHead', 'Gramsevak Resolved')}</h2>
+               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {gramsevakCompletedIssues.map((issue, idx) => (
+                    <div key={idx} onClick={() => { setSelectedCompletedIssue(issue); setShowCompletedDetailModal(true); }} className="mobile-card cursor-pointer group">
+                       <div className="flex justify-between items-start mb-4">
+                          <div className="w-10 h-10 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center"><CheckCircle className="w-6 h-6" /></div>
+                          <span className="text-[10px] font-black text-gray-400">{new Date(issue.updatedAt).toLocaleDateString()}</span>
+                       </div>
+                       <h4 className="font-black text-dark-900 group-hover:text-brand-dark transition-colors">{issue.title || "Resolved Issue"}</h4>
+                       <p className="text-xs text-gray-400 mt-2 line-clamp-2">{issue.description}</p>
+                    </div>
+                  ))}
+               </div>
             </div>
           )}
 
-          {activePanel === 'notices' && (
-            <GramSabhaNoticePanel />
-          )}
-
-          {activePanel === 'reports' && (
-            <VillageAdminReportsPanel issues={issues} gramsevakCompletedIssues={gramsevakCompletedIssues} />
-          )}
-
-          {activePanel === 'settings' && (
-            <VillageAdminSettingsPanel adminName={currentUsername} adminPhone={currentMobile} />
-          )}
+          {activePanel === 'notices' && <GramSabhaNoticePanel />}
+          {activePanel === 'reports' && <VillageAdminReportsPanel issues={issues} gramsevakCompletedIssues={gramsevakCompletedIssues} />}
+          {activePanel === 'settings' && <VillageAdminSettingsPanel adminName={currentUsername} adminPhone={currentMobile} />}
 
         </main>
       </div>
 
-      {/* Modals - Unchanged logic */}
-      <SendToGramSevakModal
-        open={showSendModal}
-        onClose={() => setShowSendModal(false)}
-        issue={selectedIssue}
-        priority={selectedPriority}
-        setPriority={setSelectedPriority}
-        gramSevak={selectedGramSevak}
-        setGramSevak={setSelectedGramSevak}
-        onSend={handleAssign}
-      />
-
-      <GramSabhaNoticeModal
-        open={showNoticeModal}
-        onClose={() => setShowNoticeModal(false)}
-      />
-
-      <GramSabhaNoticeSlider
-        open={showNoticeSlider}
-        onClose={() => setShowNoticeSlider(false)}
-      />
-
-      <CompletedDetailModal
-        open={showCompletedDetailModal}
-        issue={selectedCompletedIssue}
-        onClose={() => setShowCompletedDetailModal(false)}
-      />
+      <SendToGramSevakModal open={showSendModal} onClose={() => setShowSendModal(false)} issue={selectedIssue} priority={selectedPriority} setPriority={setSelectedPriority} gramSevak={selectedGramSevak} setGramSevak={setSelectedGramSevak} onSend={handleAssign} />
+      <GramSabhaNoticeModal open={showNoticeModal} onClose={() => setShowNoticeModal(false)} />
+      <GramSabhaNoticeSlider open={showNoticeSlider} onClose={() => setShowNoticeSlider(false)} />
+      <CompletedDetailModal open={showCompletedDetailModal} issue={selectedCompletedIssue} onClose={() => setShowCompletedDetailModal(false)} />
 
       <BottomNavbar />
     </div>

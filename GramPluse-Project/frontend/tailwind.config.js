@@ -6,6 +6,10 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '375px',
+        '2xs': '320px',
+      },
       colors: {
         primary: {
           50: '#ecfdf5',
@@ -19,6 +23,12 @@ export default {
           800: '#065f46',
           900: '#064e3b',
         },
+        brand: {
+          dark: '#0C7779',
+          teal: '#14b8a6',
+          emerald: '#10b981',
+          light: '#f0fdfa',
+        },
         secondary: {
           50: '#f0f9ff',
           100: '#e0f2fe',
@@ -31,6 +41,7 @@ export default {
           600: '#d97706',
         },
         dark: {
+          950: '#020617',
           900: '#0f172a', // Slate 900
           800: '#1e293b', // Slate 800
           700: '#334155', // Slate 700
@@ -45,9 +56,15 @@ export default {
         sans: ['Outfit', 'Inter', 'sans-serif'],
         display: ['Outfit', 'Poppins', 'sans-serif'],
       },
+      borderRadius: {
+        '4xl': '2rem',
+        '5xl': '2.5rem',
+        '6xl': '3rem',
+      },
       boxShadow: {
         'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
         'card': '0 10px 30px -10px rgba(0, 0, 0, 0.05)',
+        'premium': '0 20px 50px -12px rgba(0, 0, 0, 0.1)',
         'glow': '0 0 20px rgba(16, 185, 129, 0.3)',
       },
       animation: {
@@ -55,6 +72,7 @@ export default {
         'slide-up': 'slideUp 0.5s ease-out',
         'bounce-slow': 'bounce 3s infinite',
         'spring-up': 'springUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
         fadeIn: {

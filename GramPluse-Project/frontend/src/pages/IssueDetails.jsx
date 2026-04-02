@@ -98,14 +98,14 @@ function IssueDetails() {
   const isInProgress = issue.status === 'in-progress' || issue.status === 'In Progress';
 
   return (
-    <div className="min-h-screen bg-[#F0F7F2] selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen bg-light-50 selection:bg-emerald-500 selection:text-white">
       <Navbar />
       <div className="relative z-40">
         <Sidebar />
       </div>
 
-      <div className="pt-20 md:pt-24 md:ml-72 transition-all duration-500 pb-32 md:pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto space-y-8">
+      <div className="pt-20 md:ml-72 transition-all duration-500 pb-32 md:pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto space-y-8 animate-fade-in-up">
           
           {/* Navigation & Header */}
           <div className="flex items-center justify-between mb-2">

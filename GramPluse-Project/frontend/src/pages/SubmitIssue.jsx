@@ -21,12 +21,14 @@ function SubmitIssue() {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   // Issue Categories with proper icons
   const issueTypes = [
     { id: 'water', label: t('issueTypes.water'), icon: Droplets, color: 'text-blue-500', bg: 'bg-blue-50' },
     { id: 'road', label: t('issueTypes.road'), icon: Footprints, color: 'text-gray-700', bg: 'bg-gray-100' },
     { id: 'light', label: t('issueTypes.light'), icon: Lightbulb, color: 'text-yellow-500', bg: 'bg-yellow-50' },
-    { id: 'drainage', label: t('issueTypes.drainage'), icon: Navigation, color: 'text-cyan-600', bg: 'bg-cyan-50' }, // Approximation
+    { id: 'drainage', label: t('issueTypes.drainage'), icon: Navigation, color: 'text-cyan-600', bg: 'bg-cyan-50' },
     { id: 'garbage', label: t('issueTypes.garbage'), icon: Trash2, color: 'text-green-600', bg: 'bg-green-50' },
     { id: 'other', label: t('issueTypes.other'), icon: AlertTriangle, color: 'text-purple-500', bg: 'bg-purple-50' },
   ];
@@ -129,240 +131,162 @@ function SubmitIssue() {
     }
   };
 
-  const currentType = issueTypes.find(t => t.id === issueType);
-
   return (
-    <>
-      <Navbar />
-      <div className="relative z-40">
-        <Sidebar />
-      </div>
+    <div className="min-h-screen bg-light-50 font-sans">
+      <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      <div className="min-h-screen bg-light-50 pt-16 md:pt-20 pb-32 md:pb-12 px-4 sm:px-6 lg:px-8 transition-colors duration-500">
-        <div className="max-w-4xl mx-auto lg:ml-[350px]">
+      <main className="pt-20 md:ml-72 pb-32 md:pb-12 px-4 sm:px-6 lg:px-8 transition-all duration-500">
+        <div className="max-w-4xl mx-auto py-6 space-y-8 animate-fade-in-up">
+           
+           {/* Header Section */}
+           <section className="bg-brand-dark rounded-4xl p-8 sm:p-12 text-white relative overflow-hidden shadow-2xl">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+              <div className="relative z-10 space-y-4">
+                 <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest text-emerald-400">
+                    <Navigation className="w-3 h-3" /> Report Center
+                 </div>
+                 <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-none">
+                    Submit <span className="text-emerald-400">Grievance</span>
+                 </h1>
+                 <p className="text-white/50 text-sm font-medium max-w-lg leading-relaxed">
+                    Accuracy matters. Provide clear details to help our village administration solve issues faster.
+                 </p>
+              </div>
+           </section>
 
-          <div className="mb-6 sm:mb-10 text-center lg:text-left">
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 mb-2 font-display">
-              {t('newIssue')}
-            </h1>
-            <p className="text-gray-600 text-sm sm:text-lg">
-              {t('submitDescription') || "Help us improve the village by reporting issues correctly."}
-            </p>
-          </div>
+           <div className="bg-white rounded-4xl shadow-sm border border-gray-100 overflow-hidden min-h-[600px] flex flex-col">
+              {/* Step indicator */}
+              <div className="flex bg-gray-50/50 border-b border-gray-100 p-2">
+                 {[1, 2, 3].map(s => (
+                   <button 
+                     key={s} 
+                     onClick={() => step > s && setStep(s)}
+                     className={`flex-1 py-4 flex items-center justify-center gap-2 transition-all rounded-2xl ${step === s ? 'bg-white shadow-sm text-brand-dark font-black scale-[1.02]' : 'text-gray-300 pointer-events-none'}`}
+                   >
+                     <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[10px] ${step === s ? 'bg-brand-dark text-white' : 'bg-gray-100'}`}>{s}</span>
+                     <span className="hidden sm:inline text-xs uppercase tracking-widest">{s === 1 ? 'Category' : s === 2 ? 'Evidence' : 'Location'}</span>
+                   </button>
+                 ))}
+              </div>
 
-          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
-
-            {/* Progress Steps */}
-            <div className="flex border-b border-gray-100">
-              {[1, 2, 3].map((s) => (
-                <div
-                  key={s}
-                  onClick={() => setStep(s)}
-                  className={`flex-1 py-4 text-center cursor-pointer transition-colors duration-300 relative ${step === s ? 'bg-emerald-50 text-emerald-700 font-bold' : 'text-gray-400 hover:bg-gray-50'
-                    }`}
-                >
-                  <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full border-2 mr-2 ${step === s ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-gray-200 bg-white'
-                    }`}>
-                    {s}
-                  </span>
-                  <span className="hidden sm:inline">
-                    {s === 1 ? t('details') : s === 2 ? t('media') : t('location')}
-                  </span>
-                  {step === s && (
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500"></div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <div className="p-6 md:p-10 min-h-[500px]">
-
-              {/* Step 1: Details */}
-              {step === 1 && (
-                <div className="space-y-8 animate-fade-in">
-                  <div>
-                    <label className="block text-gray-700 font-bold mb-4 text-lg flex items-center gap-2">
-                      <Lightbulb className="w-5 h-5 text-emerald-500" />
-                      {t('selectIssueType')}
-                    </label>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {issueTypes.map((type) => (
-                        <div
-                          key={type.id}
-                          onClick={() => setIssueType(type.id)}
-                          className={`
-                            cursor-pointer rounded-2xl p-4 border-2 transition-all duration-200 flex flex-col items-center justify-center gap-3 text-center
-                            ${issueType === type.id
-                              ? 'border-emerald-500 bg-emerald-50 shadow-md ring-2 ring-emerald-200'
-                              : 'border-gray-100 hover:border-emerald-200 hover:bg-gray-50'}
-                          `}
-                        >
-                          <div className={`p-3 rounded-full ${type.bg}`}>
-                            <type.icon className={`w-6 h-6 ${type.color}`} />
-                          </div>
-                          <span className={`font-semibold ${issueType === type.id ? 'text-emerald-800' : 'text-gray-600'}`}>
-                            {type.label}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-gray-700 font-bold mb-4 text-lg flex items-center gap-2">
-                      <FileText className="w-5 h-5 text-emerald-500" />
-                      {t('description')}
-                    </label>
-                    <div className="relative">
-                      <textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        className="w-full p-4 border-2 border-gray-200 rounded-2xl text-lg focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 outline-none transition-all resize-none shadow-sm min-h-[160px]"
-                        placeholder={t('descriptionPlaceholder') || "Describe the issue in detail..."}
-                      />
-                      <div className="absolute bottom-4 right-4 text-xs text-gray-400 bg-white px-2 py-1 rounded-md border">
-                        {description.length} chars
+              <div className="p-6 sm:p-10 flex-1">
+                 {step === 1 && (
+                   <div className="space-y-8 animate-fade-in">
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                         {issueTypes.map(type => (
+                           <button
+                             key={type.id}
+                             onClick={() => setIssueType(type.id)}
+                             className={`p-6 rounded-3xl border-2 transition-all flex flex-col items-center gap-4 group ${issueType === type.id ? 'border-emerald-500 bg-emerald-50 shadow-lg shadow-emerald-900/5' : 'border-gray-50 hover:border-emerald-200'}`}
+                           >
+                             <div className={`p-4 rounded-2xl ${type.bg} ${type.color} group-hover:scale-110 transition-transform`}>
+                                <type.icon className="w-6 h-6" />
+                             </div>
+                             <span className={`text-[10px] font-black uppercase tracking-widest ${issueType === type.id ? 'text-emerald-700' : 'text-gray-400'}`}>{type.label}</span>
+                           </button>
+                         ))}
                       </div>
-                    </div>
-                  </div>
 
-                  <div className="flex justify-end pt-4">
-                    <button
-                      onClick={() => setStep(2)}
-                      disabled={!issueType || !description}
-                      className="px-8 py-3 bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg flex items-center gap-2"
-                    >
-                      Next Step <Navigation className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              )}
+                      <div className="space-y-3">
+                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2">Detailed Narrative</label>
+                         <textarea 
+                           placeholder="Tell us everything about the problem..."
+                           value={description}
+                           onChange={(e) => setDescription(e.target.value)}
+                           className="w-full bg-light-50 rounded-3xl p-6 text-sm font-medium text-dark-900 focus:bg-white focus:ring-4 focus:ring-emerald-50 border border-gray-100 outline-none transition-all placeholder:text-gray-300 min-h-[160px] shadow-inner"
+                         />
+                      </div>
 
-              {/* Step 2: Media */}
-              {step === 2 && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="text-center">
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">{t('uploadPhoto')}</h3>
-                    <p className="text-gray-500 mb-6">{t('photoUploadIndication') || "Upload a clear photo of the issue to help us promote it."}</p>
-                  </div>
+                      <div className="flex justify-end pt-4">
+                         <button 
+                           onClick={() => setStep(2)}
+                           disabled={!issueType || !description.trim()}
+                           className="premium-button bg-brand-dark text-white px-10 shadow-xl shadow-emerald-900/20 disabled:opacity-30 disabled:pointer-events-none"
+                         >
+                            Continue <ChevronRight className="w-5 h-5" />
+                         </button>
+                      </div>
+                   </div>
+                 )}
 
-                  <div className="flex flex-col items-center justify-center">
-                    <label className={`
-                      w-full max-w-md h-64 border-3 border-dashed rounded-3xl flex flex-col items-center justify-center cursor-pointer transition-all duration-300
-                      ${photoFile
-                        ? 'border-emerald-500 bg-emerald-50'
-                        : 'border-gray-300 hover:border-emerald-400 hover:bg-gray-50'}
-                    `}>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => setPhotoFile(e.target.files[0])}
-                        className="hidden"
-                      />
+                 {step === 2 && (
+                   <div className="space-y-8 animate-fade-in text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+                      <div className="w-24 h-24 bg-emerald-50 rounded-4xl flex items-center justify-center text-emerald-500 mb-6 shadow-inner ring-8 ring-emerald-50/50">
+                         <Camera className="w-10 h-10" />
+                      </div>
+                      <div className="space-y-2 mb-10">
+                         <h3 className="text-2xl font-black text-dark-900">Add Proof</h3>
+                         <p className="text-gray-400 text-sm font-medium">Clear photos help us verify issues instantly.</p>
+                      </div>
 
-                      {photoFile ? (
-                        <div className="relative w-full h-full p-4 flex flex-col items-center justify-center">
-                          <CheckCircle className="w-16 h-16 text-emerald-500 mb-4 animate-bounce" />
-                          <p className="text-emerald-800 font-bold text-lg">{photoFile.name}</p>
-                          <p className="text-emerald-600 text-sm">{(photoFile.size / 1024 / 1024).toFixed(2)} MB</p>
-                          <button
-                            onClick={(e) => { e.preventDefault(); setPhotoFile(null); }}
-                            className="mt-4 px-4 py-2 bg-white text-red-500 rounded-full shadow-md hover:bg-red-50 border border-red-100 flex items-center gap-2 font-medium"
-                          >
-                            <Trash2 className="w-4 h-4" /> Remove
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col items-center text-gray-500 p-8 text-center">
-                          <div className="bg-blue-50 p-4 rounded-full mb-4 group-hover:scale-110 transition-transform">
-                            <UploadCloud className="w-10 h-10 text-blue-500" />
-                          </div>
-                          <p className="font-bold text-lg text-gray-700">Click to upload photo</p>
-                          <p className="text-sm text-gray-400 mt-2">SVG, PNG, JPG or GIF (max. 5MB)</p>
-                        </div>
-                      )}
-                    </label>
-                  </div>
+                      <label className={`w-full max-w-md h-64 border-3 border-dashed rounded-4xl flex flex-col items-center justify-center cursor-pointer transition-all ${photoFile ? 'border-emerald-500 bg-emerald-50' : 'border-gray-100 hover:border-emerald-400 hover:bg-gray-50'}`}>
+                         <input type="file" accept="image/*" onChange={(e) => setPhotoFile(e.target.files[0])} className="hidden" />
+                         {photoFile ? (
+                           <div className="p-6 text-center">
+                              <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
+                              <p className="text-sm font-black text-emerald-800 truncate">{photoFile.name}</p>
+                              <p className="text-[10px] text-emerald-600">{(photoFile.size/1024/1024).toFixed(2)} MB</p>
+                              <button onClick={(e) => { e.preventDefault(); setPhotoFile(null); }} className="mt-4 text-xs font-black text-red-500 uppercase">Replace Photo</button>
+                           </div>
+                         ) : (
+                           <div className="text-center group">
+                              <UploadCloud className="w-12 h-12 text-gray-300 group-hover:text-emerald-500 transition-colors mx-auto mb-4" />
+                              <p className="text-xs font-black text-gray-400 uppercase tracking-widest">Select Image File</p>
+                           </div>
+                         )}
+                      </label>
 
-                  <div className="flex justify-between pt-8">
-                    <button
-                      onClick={() => setStep(1)}
-                      className="px-6 py-3 text-gray-600 font-bold hover:bg-gray-100 rounded-xl transition-all"
-                    >
-                      Back
-                    </button>
-                    <button
-                      onClick={() => setStep(3)}
-                      className="px-8 py-3 bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg flex items-center gap-2"
-                    >
-                      Next Step <Navigation className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              )}
+                      <div className="flex justify-between w-full pt-10 border-t border-gray-50">
+                         <button onClick={() => setStep(1)} className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest hover:text-dark-900 transition-colors">Back</button>
+                         <button onClick={() => setStep(3)} className="premium-button bg-brand-dark text-white px-10 shadow-xl shadow-emerald-900/20">Finalize Location <ChevronRight className="w-5 h-5" /></button>
+                      </div>
+                   </div>
+                 )}
 
-              {/* Step 3: Location & Submit */}
-              {step === 3 && (
-                <div className="space-y-6 animate-fade-in h-full flex flex-col">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                        <MapPin className="w-6 h-6 text-red-500" />
-                        {t('confirmLocation')}
-                      </h3>
-                      <p className="text-gray-500 text-sm mt-1">{t('dragPinToAdjust') || "Drag the pin to exact location"}</p>
-                    </div>
-                    <div className="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-lg text-xs font-mono font-bold">
-                      {location.lat.toFixed(4)}, {location.lng.toFixed(4)}
-                    </div>
-                  </div>
+                 {step === 3 && (
+                   <div className="space-y-6 animate-fade-in flex flex-col h-full min-h-[450px]">
+                      <div className="flex items-center justify-between px-2">
+                         <div className="flex items-center gap-2">
+                           <MapPin className="w-4 h-4 text-rose-500" />
+                           <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Precise Location</span>
+                         </div>
+                         <div className="bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-100 font-mono text-[10px] font-black text-emerald-600">
+                           {location.lat.toFixed(4)}, {location.lng.toFixed(4)}
+                         </div>
+                      </div>
 
-                  <div className="flex-1 min-h-[350px] rounded-2xl overflow-hidden shadow-inner border-4 border-white ring-1 ring-gray-200 relative">
-                    <MapPicker location={location} setLocation={setLocation} />
+                      <div className="flex-1 rounded-[2.5rem] overflow-hidden border-2 border-gray-50 shadow-inner relative group min-h-[300px]">
+                         <MapPicker location={location} setLocation={setLocation} />
+                         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-xl flex items-center gap-3 border border-emerald-100 animate-pulse">
+                            <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700">Drag to target</span>
+                         </div>
+                      </div>
 
-                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2 rounded-lg shadow-lg text-xs font-semibold text-gray-600 max-w-[150px]">
-                      <AlertCircle className="w-4 h-4 inline mr-1 text-blue-500" />
-                      Map screenshot will be auto-generated.
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between pt-4 border-t border-gray-100 mt-auto">
-                    <button
-                      onClick={() => setStep(2)}
-                      className="px-6 py-3 text-gray-600 font-bold hover:bg-gray-100 rounded-xl transition-all"
-                      disabled={loading}
-                    >
-                      Back
-                    </button>
-                    <button
-                      onClick={handleSubmit}
-                      disabled={loading}
-                      className="px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-bold hover:from-emerald-700 hover:to-teal-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 bg-[length:200%_200%] animate-gradient-x flex items-center gap-3 disabled:opacity-70 disabled:cursor-wait"
-                    >
-                      {loading ? (
-                        <>
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                          Submitting...
-                        </>
-                      ) : (
-                        <>
-                          <CheckCircle className="w-5 h-5" />
-                          {t('submitIssue')}
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
-              )}
-
-            </div>
-          </div>
+                      <div className="flex justify-between w-full pt-6 border-t border-gray-50">
+                         <button onClick={() => setStep(2)} disabled={loading} className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest hover:text-dark-900 transition-colors">Back</button>
+                         <button 
+                           onClick={handleSubmit} 
+                           disabled={loading}
+                           className="premium-button bg-brand-dark text-white px-10 shadow-xl shadow-emerald-900/20 disabled:opacity-50"
+                         >
+                            {loading ? (
+                              <><Loader2 className="w-5 h-5 animate-spin" /> Transmitting...</>
+                            ) : (
+                              <><CheckCircle className="w-5 h-5" /> Submit Report</>
+                            )}
+                         </button>
+                      </div>
+                   </div>
+                 )}
+              </div>
+           </div>
         </div>
-      </div>
-      
-      {/* Bottom Navigation for Mobile */}
+      </main>
+
       <BottomNavbar />
-    </>
+    </div>
   );
 }
 

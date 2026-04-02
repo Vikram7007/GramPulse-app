@@ -12,37 +12,50 @@
 }
 
 @layer base {
-  html {
+  * {
+    @apply border-gray-200;
     -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
     scroll-behavior: smooth;
+    font-size: 14px;
+  }
+
+  @screen md {
+    html { font-size: 16px; }
   }
 
   body {
     margin: 0;
     font-family: 'Outfit', 'Inter', sans-serif;
-    @apply bg-light-50 text-dark-800 antialiased;
-    overflow-x: hidden;
+    @apply bg-light-50 text-dark-800 antialiased overflow-x-hidden;
+    /* Prevent pull-to-refresh if needed, but usually keep it for web. 
+       However, for "app-like" feel, we want to control overflow. */
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display tracking-tight text-dark-900;
-  }
-
-  /* Responsive Font Sizing */
-  @screen sm {
-    html { font-size: 14px; }
-  }
-  @screen md {
-    html { font-size: 16px; }
-  }
-  @screen lg {
-    html { font-size: 17px; }
+    @apply font-display tracking-tight text-dark-900 font-black;
   }
 }
 
-/* Custom Scrollbar */
+@layer components {
+  .app-container {
+    @apply min-h-screen pb-24 md:pb-0;
+  }
+
+  .mobile-card {
+    @apply bg-white rounded-3xl p-5 shadow-sm border border-gray-100 transition-all active:scale-[0.98];
+  }
+
+  .premium-button {
+    @apply px-6 py-3.5 rounded-2xl font-bold transition-all active:scale-95 flex items-center justify-center gap-2;
+  }
+}
+
+/* Custom Scrollbar - Minimal */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -50,7 +63,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300/50 rounded-full hover:bg-gray-400 transition-colors;
+  @apply bg-gray-200 rounded-full hover:bg-gray-300 transition-colors;
 }
 
 /* Premium Animations */
@@ -80,10 +93,10 @@
     @apply p-4 rounded-3xl !important;
   }
   
-  .text-responsive-title {
-    @apply text-2xl !important;
-  }
-
+  h1 { @apply text-2xl !important; }
+  h2 { @apply text-xl !important; }
+  h3 { @apply text-lg !important; }
+  
   .text-responsive-body {
     @apply text-xs !important;
   }
@@ -96,4 +109,27 @@
 
 .glass-pill {
   @apply bg-white/20 backdrop-blur-md border border-white/30 rounded-full;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pulseBorder {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.animate-fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-pulse-border { animation: pulseBorder 2s infinite; }
+
+/* Responsive Hide Utilities */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
