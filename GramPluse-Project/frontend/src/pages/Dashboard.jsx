@@ -113,6 +113,7 @@ function Dashboard() {
     all: issues.length,
     inProgress: issues.filter((i) => i.status === 'in-progress').length,
     completed: issues.filter((i) => i.status === 'approved' || i.status === 'Completed').length,
+    rejected: issues.filter((i) => i.status === 'rejected' || i.status === 'Rejected').length,
   };
 
   const displayedIssues = (activeTab === 'all'
@@ -120,6 +121,7 @@ function Dashboard() {
     : issues.filter((issue) => {
         if (activeTab === 'inProgress') return issue.status === 'in-progress';
         if (activeTab === 'approved') return issue.status === 'approved' || issue.status === 'Completed';
+        if (activeTab === 'rejected') return issue.status === 'rejected' || issue.status === 'Rejected';
         return true;
       })
   ).filter(issue => {
@@ -176,15 +178,18 @@ function Dashboard() {
                  { id: 'all', label: 'All Issues', count: stats.all },
                  { id: 'inProgress', label: 'In Progress', count: stats.inProgress },
                  { id: 'approved', label: 'Resolved', count: stats.completed },
+                 { id: 'rejected', label: 'Rejected', count: stats.rejected },
                ].map(tab => (
                  <button
                    key={tab.id}
                    onClick={() => setActiveTab(tab.id)}
                    className={`px-5 py-2.5 rounded-2xl text-xs font-black whitespace-nowrap transition-all flex items-center gap-2 ${
-                     activeTab === tab.id ? 'bg-brand-dark text-white shadow-lg' : 'bg-white text-gray-400 border border-gray-100'
+                     activeTab === tab.id 
+                       ? 'bg-brand-dark text-white shadow-lg' 
+                       : 'bg-white text-gray-400 border border-gray-100 hover:bg-gray-50'
                    }`}
                  >
-                   {tab.label} <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded-lg">{tab.count}</span>
+                   {tab.label} <span className={`text-[10px] px-2 py-0.5 rounded-lg ${activeTab === tab.id ? 'bg-white/10' : 'bg-gray-100'}`}>{tab.count}</span>
                  </button>
                ))}
             </div>

@@ -44,7 +44,7 @@ const GramSevakSidebar = ({ activeTab, onTabChange, adminName, village, isOpen, 
         />
       )}
 
-      <aside className={`fixed left-0 top-0 bottom-0 w-80 bg-[#0C7779] border-r border-white/5 z-[90] transition-transform duration-500 ease-in-out flex flex-col shadow-2xl overflow-hidden ${
+      <aside className={`fixed left-0 top-0 bottom-0 w-80 bg-[#0B1E1C] border-r border-white/5 z-[90] transition-transform duration-500 ease-in-out flex flex-col shadow-2xl overflow-hidden ${
         isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
       }`}>
         

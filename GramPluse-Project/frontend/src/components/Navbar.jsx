@@ -14,7 +14,8 @@ import {
   CheckCircle,
   Clock,
   ChevronRight,
-  Info
+  Info,
+  Globe
 } from 'lucide-react';
 import { useSocket } from '../context/SocketContext';
 import api from '../utils/api';
@@ -35,6 +36,21 @@ function Navbar({ onGramSabhaClick, onSearch, onMenuClick }) {
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
+  const timeAgo = (date) => {
+    const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+    let interval = seconds / 31536000;
+    if (interval > 1) return Math.floor(interval) + " years ago";
+    interval = seconds / 2592000;
+    if (interval > 1) return Math.floor(interval) + " months ago";
+    interval = seconds / 86400;
+    if (interval > 1) return Math.floor(interval) + " days ago";
+    interval = seconds / 3600;
+    if (interval > 1) return Math.floor(interval) + " hours ago";
+    interval = seconds / 60;
+    if (interval > 1) return Math.floor(interval) + " mins ago";
+    return "Just now";
+  };
+
   const fetchNotifs = async () => {
     try {
       const res = await api.get('/issues/notifications?recipient=all');
@@ -43,7 +59,7 @@ function Navbar({ onGramSabhaClick, onSearch, onMenuClick }) {
           id: n._id,
           title: n.title,
           desc: n.desc,
-          time: new Date(n.createdAt).toLocaleTimeString('hi-IN'),
+          time: timeAgo(n.createdAt),
           read: n.read || false,
           type: n.type || 'info'
         }));
@@ -125,8 +141,8 @@ function Navbar({ onGramSabhaClick, onSearch, onMenuClick }) {
       ref={navRef}
       className={`fixed top-0 left-0 right-0 z-[1001] transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1) ${
         isScrolled
-        ? 'h-16 bg-brand-dark/95 backdrop-blur-xl text-white shadow-lg border-b border-white/10'
-        : 'h-20 bg-brand-dark text-white'
+        ? 'h-16 bg-[#0B1E1C]/95 backdrop-blur-xl text-white shadow-lg border-b border-white/10'
+        : 'h-20 bg-[#0B1E1C] text-white border-b border-white/5'
       }`}
     >
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 h-full">
@@ -185,9 +201,9 @@ function Navbar({ onGramSabhaClick, onSearch, onMenuClick }) {
                   key={lang.code}
                   onClick={() => i18n.changeLanguage(lang.code)}
                   className={`px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-[10px] font-black transition-all ${
-                    i18n.language === lang.code
-                    ? 'bg-white text-brand-dark shadow-md'
-                    : 'text-white/50 hover:text-white'
+                    i18n.language.startsWith(lang.code)
+                    ? 'bg-emerald-500 text-white shadow-lg'
+                    : 'text-white/40 hover:text-white'
                   }`}
                 >
                   {lang.code.toUpperCase()}
@@ -229,7 +245,10 @@ function Navbar({ onGramSabhaClick, onSearch, onMenuClick }) {
                           <div className="flex gap-3">
                             <div className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 mt-1.5"></div>
                             <div>
-                              <p className="text-xs font-bold text-gray-900">{notif.title}</p>
+                              <div className="flex justify-between items-start gap-4">
+                                <p className="text-xs font-bold text-gray-900">{notif.title}</p>
+                                <span className="text-[9px] font-black text-emerald-600 uppercase whitespace-nowrap">{notif.time}</span>
+                              </div>
                               <p className="text-[10px] text-gray-500 line-clamp-1 mt-0.5">{notif.desc}</p>
                             </div>
                           </div>

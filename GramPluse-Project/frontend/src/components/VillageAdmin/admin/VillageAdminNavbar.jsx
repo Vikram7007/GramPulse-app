@@ -121,7 +121,7 @@ const VillageAdminNavbar = ({ onGramSabhaClick, adminNameProp, onMenuClick }) =>
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-[1001] transition-all duration-700 bg-[#0C7779] text-white ${
+      className={`fixed top-0 left-0 right-0 z-[1001] transition-all duration-700 bg-[#0B1E1C] text-white ${
         isScrolled ? 'h-16 shadow-lg border-b border-white/10' : 'h-20 shadow-sm'
       }`}
     >

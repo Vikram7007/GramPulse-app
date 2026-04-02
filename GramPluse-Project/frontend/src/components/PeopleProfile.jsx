@@ -10,7 +10,8 @@ import {
   X, User, Camera, Loader2, Briefcase, Star, Globe,
   Users, FileText, PlusCircle, Activity, Heart,
   ThumbsUp, MessageSquare, AlertTriangle, Settings, ArrowLeft,
-  ChevronRight, Zap, Target, ShieldCheck, TrendingUp, Share2
+  ChevronRight, Zap, Target, ShieldCheck, TrendingUp, Share2,
+  Lock, LayoutGrid, Info
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +26,7 @@ const PeopleProfile = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [profileCompletion, setProfileCompletion] = useState(0);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -115,326 +117,331 @@ const PeopleProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFB] selection:bg-emerald-500 selection:text-white">
-      <Navbar />
-      <div className="relative z-40">
-        <Sidebar />
-      </div>
+    <div className="min-h-screen bg-light-50 font-sans selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden">
+      <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      <div className="pt-20 md:pt-24 md:ml-72 transition-all duration-500 pb-32 md:pb-20 px-4 sm:px-6 lg:px-10">
-        <div className="max-w-[1400px] mx-auto">
+      <main className="pt-20 md:ml-72 pb-32 md:pb-12 px-4 sm:px-6 lg:px-8 transition-all duration-500">
+        <div className="max-w-7xl mx-auto py-6 space-y-8 animate-fade-in">
           
-          {/* Professional Layout: 2-Column Split */}
-          <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
-            
-            {/* Left Column: Hero & Content (8/12) */}
-            <div className="xl:col-span-8 space-y-8">
-              
-              {/* Premium Hero Card */}
-              <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden animate-springUp relative">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[100px] -mr-32 -mt-32"></div>
+          {/* Header Profile Section - Android Style Card */}
+          <section className="bg-brand-dark rounded-4xl p-8 sm:p-12 text-white relative overflow-hidden shadow-2xl">
+             <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+             <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
                 
-                <div className="p-10 sm:p-14 flex flex-col md:flex-row gap-12 items-center">
-                   
-                    <div className="relative shrink-0">
-                       <div className="w-32 h-32 sm:w-44 sm:h-44 rounded-full border-[6px] sm:border-[10px] border-emerald-50/50 shadow-2xl shadow-emerald-900/10 overflow-hidden ring-1 ring-white relative z-10">
-                          <img src={formData.avatar} className="w-full h-full object-cover" alt="profile" />
-                       </div>
-                      <div className="absolute -bottom-2 right-4 z-20 bg-white p-2 rounded-2xl shadow-xl border border-slate-50 flex items-center gap-1.5 animate-bounce-slow">
-                         <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
-                         <span className="text-[10px] font-black text-emerald-950 uppercase tracking-widest">Active</span>
-                      </div>
+                {/* Avatar with Ring */}
+                <div className="relative group shrink-0">
+                   <div className="w-40 h-40 rounded-[2.5rem] bg-white/10 backdrop-blur-xl border-4 border-white/20 p-2 shadow-2xl rotate-3 group-hover:rotate-0 transition-all duration-500">
+                      <img src={formData.avatar} className="w-full h-full object-cover rounded-[2rem]" alt="profile" />
                    </div>
-
-                   {/* Identitiy Block */}
-                    <div className="flex-1 text-center md:text-left space-y-4 sm:space-y-6">
-                       <div className="space-y-1">
-                          <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tighter leading-tight drop-shadow-sm">
-                             {formData.name || 'Citizen Participant'}
-                          </h1>
-                          <p className="text-base sm:text-xl font-medium text-emerald-600 tracking-tight flex items-center justify-center md:justify-start gap-3">
-                             <Mail className="w-4 h-4 sm:w-5 h-5 opacity-70" /> {formData.email || 'No email provided'}
-                          </p>
-                          <p className="text-base sm:text-xl font-semibold text-slate-600 tracking-tight flex items-center justify-center md:justify-start gap-3 mt-1">
-                             <Phone className="w-4 h-4 sm:w-5 h-5 opacity-60" /> {formData.phone || 'Enter Phone Number'}
-                          </p>
-                       </div>
-
-                      <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                         <span className="px-5 py-2.5 bg-slate-50 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest border border-slate-100 shadow-sm flex items-center gap-2">
-                            <Briefcase className="w-4 h-4" /> {formData.occupation || "Neighbor"}
-                         </span>
-                         <span className="px-5 py-2.5 bg-emerald-50 text-emerald-600 rounded-2xl text-[10px] font-black uppercase tracking-widest border border-emerald-100 shadow-sm flex items-center gap-2">
-                            <MapPin className="w-4 h-4" /> {formData.village || "Unknown Village"}
-                         </span>
-                      </div>
-
-                      <div className="flex items-center justify-center md:justify-start gap-4 pt-4">
-                         <button 
-                            onClick={() => setShowEditModal(true)}
-                            className="px-10 py-5 bg-emerald-600 text-white rounded-2xl font-black tracking-widest uppercase text-xs hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-500/20 active:scale-95 flex items-center gap-3"
-                         >
-                            <Edit className="w-5 h-5" /> Edit Profile
-                         </button>
-                         <button className="p-5 bg-white text-slate-400 rounded-2xl border border-slate-100 hover:text-emerald-600 hover:border-emerald-200 transition-all shadow-sm">
-                            <Share2 className="w-5 h-5" />
-                         </button>
-                      </div>
+                   <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-emerald-500 px-4 py-1.5 rounded-xl shadow-xl border-4 border-brand-dark">
+                      <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">Verified Citizen</span>
                    </div>
                 </div>
 
-                {/* Tabbed Divider */}
-                <div className="px-10 flex gap-10 border-t border-slate-50 bg-slate-50/10">
-                   {[
-                      { id: 'overview', label: 'Identity & Bio', icon: User },
-                      { id: 'issues', label: 'My Submissions', icon: FileText }
-                   ].map(tab => (
-                      <button
-                         key={tab.id}
-                         onClick={() => setActiveTab(tab.id)}
-                         className={`py-8 font-black text-[11px] uppercase tracking-[0.25em] transition-all flex items-center gap-3 border-b-[3px] 
-                            ${activeTab === tab.id ? 'border-emerald-600 text-emerald-700' : 'border-transparent text-slate-400 hover:text-slate-600'}
-                         `}
+                {/* Identity Info */}
+                <div className="flex-1 text-center md:text-left space-y-4">
+                   <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest text-emerald-400">
+                      <ShieldCheck className="w-3 h-3" /> Profile Status: Active
+                   </div>
+                   <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-none drop-shadow-sm">
+                      {formData.name || 'Citizen User'}
+                   </h1>
+                   <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                      <div className="flex items-center gap-2 text-white/60 font-medium">
+                         <Mail className="w-4 h-4 text-emerald-400" /> {formData.email || 'N/A'}
+                      </div>
+                      <div className="flex items-center gap-2 text-white/60 font-medium">
+                         <Phone className="w-4 h-4 text-emerald-400" /> {formData.phone || 'N/A'}
+                      </div>
+                   </div>
+                   <div className="flex items-center justify-center md:justify-start gap-4 pt-4">
+                      <button 
+                        onClick={() => setShowEditModal(true)}
+                        className="px-8 py-3.5 bg-white text-brand-dark rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
                       >
-                         <tab.icon size={18} />
-                         {tab.label}
+                        <Edit className="w-4 h-4" /> Edit Profile
                       </button>
-                   ))}
+                      <button className="p-3.5 bg-white/10 rounded-2xl border border-white/10 text-white hover:bg-white/20 transition-all shadow-sm">
+                        <Share2 className="w-5 h-5" />
+                      </button>
+                   </div>
                 </div>
-              </div>
 
-              {/* Main Dynamic Content Area */}
-              <div className="animate-fadeInUp delay-200">
-                 {activeTab === 'overview' && (
-                    <div className="bg-white p-12 rounded-[2.5rem] shadow-xl shadow-slate-200/40 border border-slate-100 leading-relaxed min-h-[400px]">
-                       <div className="flex items-center gap-4 mb-10">
-                          <div className="w-2 h-10 bg-emerald-500 rounded-full"></div>
-                          <h3 className="text-3xl font-black text-slate-900 tracking-tighter">Biography</h3>
-                       </div>
-                       <p className="text-2xl text-slate-500 font-medium italic mb-12 leading-relaxed">
-                          "{formData.bio || "This citizen hasn't shared their story yet. Their contributions to the village speak louder than words."}"
-                       </p>
+                {/* Completion Metric */}
+                <div className="hidden xl:flex flex-col items-center gap-4 bg-white/5 p-8 rounded-4xl border border-white/10 backdrop-blur-md">
+                   <div className="relative w-24 h-24 flex items-center justify-center">
+                      <svg className="w-full h-full -rotate-90">
+                         <circle cx="48" cy="48" r="40" className="stroke-white/10 fill-none" strokeWidth="8" />
+                         <circle cx="48" cy="48" r="40" className="stroke-emerald-400 fill-none transition-all duration-1000" strokeWidth="8" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * profileCompletion) / 100} strokeLinecap="round" />
+                      </svg>
+                      <span className="absolute text-xl font-black">{profileCompletion}%</span>
+                   </div>
+                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50">Completion</p>
+                </div>
+             </div>
+          </section>
 
-                       <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] mb-8">Service Recognition</h3>
-                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                          <div className="p-10 rounded-[2.5rem] bg-slate-50 border border-slate-100 flex items-center gap-8 group hover:bg-emerald-50 transition-all hover:shadow-lg">
-                             <div className="w-16 h-16 bg-white rounded-[1.5rem] flex items-center justify-center text-emerald-600 shadow-md shadow-emerald-500/5 group-hover:scale-110 transition-transform">
-                                <Award className="w-10 h-10" />
-                             </div>
-                             <div>
-                                <p className="text-xl font-black text-slate-900">Community Anchor</p>
-                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Village Achievement</p>
-                             </div>
-                          </div>
-                          <div className="p-10 rounded-[2.5rem] bg-slate-50 border border-slate-100 flex items-center gap-8 group hover:bg-emerald-50 transition-all hover:shadow-lg">
-                             <div className="w-16 h-16 bg-white rounded-[1.5rem] flex items-center justify-center text-blue-600 shadow-md shadow-blue-500/5 group-hover:scale-110 transition-transform">
-                                <ShieldCheck className="w-10 h-10" />
-                             </div>
-                             <div>
-                                <p className="text-xl font-black text-slate-900">Verified Reporter</p>
-                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Identity Status</p>
-                             </div>
-                          </div>
-                       </div>
-                    </div>
-                 )}
+          {/* Tab Navigation */}
+          <section className="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
+             {[
+               { id: 'overview', label: 'Personal Details', icon: User },
+               { id: 'issues', label: 'My Contributions', icon: LayoutGrid },
+               { id: 'impact', label: 'Village Impact', icon: Zap }
+             ].map(tab => (
+               <button
+                 key={tab.id}
+                 onClick={() => setActiveTab(tab.id)}
+                 className={`px-6 py-3 rounded-2xl text-xs font-black whitespace-nowrap transition-all flex items-center gap-3 ${
+                   activeTab === tab.id ? 'bg-brand-dark text-white shadow-lg' : 'bg-white text-gray-400 border border-gray-100 hover:bg-gray-50'
+                 }`}
+               >
+                 <tab.icon className="w-4 h-4" /> {tab.label}
+               </button>
+             ))}
+          </section>
 
-                 {activeTab === 'issues' && (
-                    <div className="space-y-6">
-                       {submittedIssues.length === 0 ? (
-                          <div className="bg-white py-24 px-12 rounded-[3.5rem] shadow-xl border border-slate-100 text-center animate-fadeInUp">
-                             <div className="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-10 ring-8 ring-emerald-50/50">
-                                <PlusCircle className="w-12 h-12 text-emerald-300" />
-                             </div>
-                             <h4 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Voices of the Village</h4>
-                             <p className="text-slate-400 max-w-sm mx-auto font-medium text-lg leading-relaxed mb-10">Start identifying and reporting issues in your neighborhood to help build a better Gram Panchayat.</p>
-                             <button onClick={() => navigate('/submit')} className="px-12 py-5 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-emerald-600 transition-all shadow-2xl active:scale-95">
-                                Submit New Report
-                             </button>
-                          </div>
-                       ) : (
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-10">
-                             {submittedIssues.map((issue) => (
-                                <div 
-                                   key={issue._id} 
-                                   onClick={() => navigate(`/issue-details/${issue._id}`)}
-                                   className="bg-white rounded-[2.5rem] p-8 border border-slate-50 shadow-lg hover:shadow-emerald-900/5 transition-all hover:-translate-y-2 cursor-pointer group"
-                                >
-                                   <div className="h-56 rounded-[2rem] overflow-hidden mb-8 relative border-4 border-slate-50 shadow-sm">
-                                      <img 
-                                         src={getImageUrl(issue.images?.[0])} 
-                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" 
-                                         alt="issue"
-                                      />
-                                      <div className="absolute top-5 right-5 group-hover:scale-110 transition-transform">
-                                         <span className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.25em] border backdrop-blur-md shadow-2xl ${
-                                            issue.status === 'pending' ? 'bg-orange-500/10 text-orange-600 border-orange-500/20' :
-                                            issue.status === 'in-progress' ? 'bg-blue-500/10 text-blue-600 border-blue-500/20' :
-                                            'bg-emerald-500/10 text-emerald-600 border-emerald-500/20'
-                                         }`}>
-                                            {issue.status}
-                                         </span>
-                                      </div>
-                                   </div>
-                                   <div className="space-y-5">
-                                      <h4 className="text-2xl font-black text-slate-950 group-hover:text-emerald-600 transition-colors tracking-tighter line-clamp-1">
-                                         {t(`issueTypes.${issue.type}`) || issue.type}
-                                      </h4>
-                                      <div className="flex items-center justify-between">
-                                         <span className="flex items-center gap-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">
-                                            <Calendar size={14} /> {new Date(issue.createdAt).toLocaleDateString()}
-                                         </span>
-                                         <span className="flex items-center gap-2 text-emerald-600 font-bold text-sm bg-emerald-50 px-4 py-1.5 rounded-full">
-                                            <ThumbsUp size={16} /> {issue.votes?.length || 0}
-                                         </span>
-                                      </div>
-                                   </div>
-                                </div>
-                             ))}
-                          </div>
-                       )}
-                    </div>
-                 )}
-              </div>
-            </div>
-
-            {/* Right Column: Statistics & Info (4/12) */}
-            <div className="xl:col-span-4 space-y-8 sticky top-24 animate-fadeInUp delay-400">
-               
-               {/* Impact Scoring Card */}
-               <div className="bg-gradient-to-br from-emerald-600 to-teal-800 rounded-[3rem] shadow-2xl p-12 text-white relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700"></div>
-                  <div className="relative z-10 flex flex-col items-center text-center">
-                     <div className="w-20 h-20 bg-white/10 rounded-[2rem] flex items-center justify-center mb-8 backdrop-blur-sm border border-white/20">
-                        <Target className="w-10 h-10 text-emerald-100" />
-                     </div>
-                     <p className="text-[11px] font-black text-emerald-200 uppercase tracking-[0.4em] mb-4">Official Impact Hub</p>
-                     <h4 className="text-4xl font-black mb-10 leading-none tracking-tighter">Guard Rank II</h4>
-                     
-                     <div className="w-full space-y-4 mb-10">
-                        <div className="flex justify-between text-[11px] font-black text-emerald-100 uppercase tracking-widest">
-                           <span>Experience</span>
-                           <span>45%</span>
-                        </div>
-                        <div className="h-4 w-full bg-emerald-950/20 rounded-full overflow-hidden border border-emerald-400/20 p-1">
-                           <div className="h-full bg-gradient-to-r from-emerald-400 to-teal-300 rounded-full shadow-lg" style={{ width: '45%' }}></div>
-                        </div>
-                     </div>
-                     <p className="text-xs font-bold text-emerald-100/60 uppercase tracking-widest italic">Neighborhood Sentinel Level</p>
-                  </div>
-               </div>
-
-               {/* Metrics Breakdown */}
-               <div className="bg-white rounded-[3rem] shadow-xl shadow-slate-200/40 border border-slate-100 p-10 space-y-10">
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tighter flex items-center gap-4">
-                     <Activity className="w-7 h-7 text-emerald-500" /> Contribution
-                  </h3>
-                  <div className="space-y-6">
-                     {[
-                        { label: 'Issues Flagged', val: submittedIssues.length, icon: AlertTriangle, col: 'orange' },
-                        { label: 'Public Support', val: submittedIssues.reduce((a,c) => a + (c.votes?.length||0), 0), icon: ThumbsUp, col: 'emerald' },
-                        { label: 'Success Rate', val: submittedIssues.filter(i=>i.status==='resolved').length, icon: Zap, col: 'blue' }
-                     ].map((met, i) => (
-                        <div key={i} className="flex items-center justify-between p-6 bg-slate-50/50 rounded-3xl border border-slate-50 group hover:bg-white hover:shadow-xl transition-all">
-                           <div className="flex items-center gap-6">
-                              <div className={`w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-${met.col}-500 shadow-sm border border-slate-50 group-hover:scale-110 transition-transform`}>
-                                 <met.icon size={26} />
-                              </div>
-                              <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest">{met.label}</span>
-                           </div>
-                           <span className={`text-3xl font-black text-${met.col}-600 tracking-tighter`}>{met.val}</span>
-                        </div>
-                     ))}
-                  </div>
-               </div>
-
-               {/* Contact Info Summary (UPDATED SIZE & COLOR) */}
-               <div className="bg-white rounded-[3rem] shadow-2xl shadow-emerald-900/5 border border-slate-100 p-10">
-                  <h3 className="text-2xl font-black text-slate-950 tracking-tighter mb-10">Direct Presence</h3>
+          {/* Content Area */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+             
+             {/* Left Main Content */}
+             <div className="lg:col-span-8 space-y-8 animate-fade-in-up">
+                
+                {activeTab === 'overview' && (
                   <div className="space-y-8">
-                     <div className="flex items-center gap-8 p-6 rounded-[2.5rem] bg-emerald-50/30 border border-emerald-50 hover:bg-emerald-50 transition-all group">
-                        <div className="w-16 h-16 bg-white text-emerald-600 rounded-[1.5rem] flex items-center justify-center shadow-md border border-emerald-100 group-hover:scale-110 transition-transform shrink-0">
-                           <Phone size={28} />
+                     <div className="bg-white rounded-4xl p-10 border border-gray-100 shadow-sm leading-relaxed">
+                        <div className="flex items-center gap-4 mb-8">
+                           <div className="w-2 h-8 bg-emerald-500 rounded-full"></div>
+                           <h3 className="text-2xl font-black text-dark-900 tracking-tight">Biography</h3>
                         </div>
-                        <div>
-                           <p className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em] mb-2 leading-none">Authenticated Phone</p>
-                           <p className="text-2xl font-black text-slate-900 tracking-tighter leading-none">{formData.phone || "7028617576"}</p>
-                        </div>
+                        <p className="text-lg text-gray-500 font-medium italic leading-relaxed">
+                           "{formData.bio || "This citizen is a dedicated member of the village community, actively participating in identifying local challenges and suggesting improvements for a better tomorrow."}"
+                        </p>
                      </div>
-                     <div className="flex items-center gap-8 p-6 rounded-[2.5rem] bg-indigo-50/30 border border-indigo-50 hover:bg-indigo-50 transition-all group">
-                        <div className="w-16 h-16 bg-white text-indigo-600 rounded-[1.5rem] flex items-center justify-center shadow-md border border-indigo-100 group-hover:scale-110 transition-transform shrink-0">
-                           <MapPin size={28} />
+
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        {[
+                          { label: "Occupation", value: formData.occupation || "Independent", icon: Briefcase, col: "bg-blue-50 text-blue-500" },
+                          { label: "Locality", value: formData.village || "Main Sector", icon: MapPin, col: "bg-emerald-50 text-emerald-500" },
+                          { label: "Member Since", value: "2024 (Beta)", icon: Calendar, col: "bg-purple-50 text-purple-500" },
+                          { label: "Security Level", value: "Verified", icon: Lock, col: "bg-orange-50 text-orange-500" }
+                        ].map((node, i) => (
+                          <div key={i} className="bg-white p-8 rounded-4xl border border-gray-100 shadow-sm flex items-center gap-6 group hover:border-emerald-200 transition-all">
+                             <div className={`p-4 rounded-2xl ${node.col} group-hover:scale-110 transition-transform shadow-sm`}>
+                                <node.icon className="w-6 h-6" />
+                             </div>
+                             <div>
+                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{node.label}</p>
+                                <p className="text-xl font-black text-dark-900 leading-none tracking-tight">{node.value}</p>
+                             </div>
+                          </div>
+                        ))}
+                     </div>
+                  </div>
+                )}
+
+                {activeTab === 'issues' && (
+                  <div className="space-y-6">
+                     {submittedIssues.length === 0 ? (
+                        <div className="bg-white rounded-4xl p-20 text-center border-2 border-dashed border-gray-100 animate-fade-in-up">
+                           <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-8">
+                              <PlusCircle className="w-12 h-12 text-gray-200" />
+                           </div>
+                           <h3 className="text-2xl font-black text-dark-900">No Reports Made</h3>
+                           <p className="text-gray-400 font-medium mt-2 max-w-xs mx-auto">Identify issues in your neighborhood to help build a better Gram Panchayat.</p>
+                           <button onClick={() => navigate('/submit')} className="mt-10 px-10 py-4 bg-brand-dark text-white rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all">
+                              Start Reporting
+                           </button>
                         </div>
-                        <div>
-                           <p className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] mb-2 leading-none">Locality Ward</p>
-                           <p className="text-2xl font-black text-slate-900 tracking-tighter leading-none">{formData.address || "Main Square"}</p>
+                     ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-10">
+                           {submittedIssues.map((issue) => (
+                              <div 
+                                 key={issue._id} 
+                                 onClick={() => navigate(`/issue-details/${issue._id}`)}
+                                 className="bg-white rounded-4xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:border-emerald-200 transition-all cursor-pointer group flex flex-col"
+                              >
+                                 <div className="aspect-[16/10] rounded-3xl overflow-hidden mb-6 relative">
+                                    <img src={getImageUrl(issue.images?.[0])} className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" alt="issue" />
+                                    <div className="absolute top-4 right-4">
+                                       <span className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border backdrop-blur-md shadow-lg ${
+                                          issue.status === 'pending' ? 'bg-orange-500/80 text-white border-orange-400' :
+                                          issue.status === 'in-progress' ? 'bg-blue-500/80 text-white border-blue-400' :
+                                          'bg-emerald-500/80 text-white border-emerald-400'
+                                       }`}>
+                                          {issue.status}
+                                       </span>
+                                    </div>
+                                 </div>
+                                 <h4 className="text-xl font-black text-dark-900 group-hover:text-emerald-600 transition-colors mb-4 line-clamp-1">
+                                    {t(`issueTypes.${issue.type}`) || issue.type}
+                                 </h4>
+                                 <div className="mt-auto flex items-center justify-between border-t border-gray-50 pt-4">
+                                    <span className="flex items-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                                       <Calendar className="w-3 h-3" /> {new Date(issue.createdAt).toLocaleDateString()}
+                                    </span>
+                                    <span className="flex items-center gap-1.5 text-emerald-600 font-bold text-xs bg-emerald-50 px-3 py-1.5 rounded-full">
+                                       <ThumbsUp className="w-3.5 h-3.5" /> {issue.votes?.length || 0}
+                                    </span>
+                                 </div>
+                              </div>
+                           ))}
+                        </div>
+                     )}
+                  </div>
+                )}
+
+                {activeTab === 'impact' && (
+                  <div className="bg-white rounded-4xl p-10 border border-gray-100 shadow-sm text-center space-y-8 py-20">
+                     <div className="w-32 h-32 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4 border-8 border-emerald-100 animate-pulse-slow">
+                        <Zap className="w-16 h-16 text-emerald-500" />
+                     </div>
+                     <h2 className="text-3xl font-black text-dark-900">Neighborhood Impact Hub</h2>
+                     <p className="text-gray-500 max-w-sm mx-auto font-medium">Tracking the positive transformations fueled by your active participation in village governance.</p>
+                     
+                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-10">
+                        <div className="space-y-2">
+                           <p className="text-3xl font-black text-emerald-600">Level 4</p>
+                           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Citizen Rank</p>
+                        </div>
+                        <div className="space-y-2">
+                           <p className="text-3xl font-black text-blue-600">{submittedIssues.reduce((a,c) => a + (c.votes?.length||0), 0)}</p>
+                           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Voter Support</p>
+                        </div>
+                        <div className="space-y-2">
+                           <p className="text-3xl font-black text-amber-600">85%</p>
+                           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Credibility Score</p>
                         </div>
                      </div>
                   </div>
-               </div>
-            </div>
+                )}
+             </div>
+
+             {/* Right Column Stats */}
+             <div className="lg:col-span-4 space-y-8 sticky top-24 animat-fade-in-up delay-300">
+                
+                {/* Modern Stat Widget */}
+                <div className="bg-white p-10 rounded-4xl border border-gray-100 shadow-sm space-y-10">
+                   <h3 className="text-2xl font-black text-dark-900 flex items-center gap-3 tracking-tighter">
+                      <TrendingUp className="w-6 h-6 text-emerald-500" /> Key Insights
+                   </h3>
+                   <div className="space-y-6">
+                      {[
+                        { label: 'Issues Flagged', val: submittedIssues.length, icon: AlertTriangle, col: 'bg-amber-50 text-amber-500' },
+                        { label: 'Network Support', val: submittedIssues.reduce((a,c) => a + (c.votes?.length||0), 0), icon: ThumbsUp, col: 'bg-emerald-50 text-emerald-500' },
+                        { label: 'Active Reports', val: submittedIssues.filter(i=>i.status!=='resolved').length, icon: Activity, col: 'bg-blue-50 text-blue-500' }
+                      ].map((met, i) => (
+                        <div key={i} className="flex items-center justify-between p-6 bg-gray-50/50 rounded-3xl border border-gray-50 border-dashed group hover:bg-white hover:shadow-lg transition-all cursor-default">
+                           <div className="flex items-center gap-5">
+                              <div className={`p-4 rounded-2xl ${met.col} group-hover:rotate-12 transition-transform`}>
+                                 <met.icon size={22} className="stroke-[3]" />
+                              </div>
+                              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none">{met.label}</span>
+                           </div>
+                           <span className="text-3xl font-black text-dark-900 tabular-nums">{met.val}</span>
+                        </div>
+                      ))}
+                   </div>
+                </div>
+
+                {/* Village Info Node */}
+                <div className="bg-gradient-to-br from-emerald-600 to-teal-800 rounded-4xl p-10 text-white relative overflow-hidden group">
+                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl transition-transform duration-700 -translate-y-1/2 translate-x-1/2 group-hover:scale-150"></div>
+                   <div className="relative z-10 flex flex-col items-center text-center py-4">
+                      <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 flex items-center justify-center mb-6">
+                        <Globe className="w-8 h-8 text-emerald-100" />
+                      </div>
+                      <p className="text-[10px] font-black text-emerald-200 uppercase tracking-[0.4em] mb-4">Official Node</p>
+                      <h4 className="text-4xl font-black tracking-tighter leading-none mb-8">{formData.village || "Rampur Node"}</h4>
+                      <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden mb-8">
+                         <div className="w-2/3 h-full bg-emerald-400 shadow-glow rounded-full"></div>
+                      </div>
+                      <p className="text-[11px] font-black text-emerald-100/60 uppercase tracking-widest italic flex items-center gap-2">
+                        <MapPin className="w-3 h-3" /> Area Ward-03 Active
+                      </p>
+                   </div>
+                </div>
+
+                <div className="bg-white p-10 rounded-4xl border border-gray-100 shadow-sm">
+                   <div className="flex items-center gap-4 text-emerald-600 mb-6 bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100">
+                      <Info className="w-5 h-5 shrink-0" />
+                      <p className="text-[10px] font-black uppercase tracking-widest leading-relaxed">Identity verification is fully encrypted and stored securely.</p>
+                   </div>
+                </div>
+
+             </div>
           </div>
         </div>
-      </div>
+      </main>
 
-      {/* Edit Profile Modal (Premium Polished) */}
+      {/* Modern Edit Modal */}
       {showEditModal && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-lg flex items-center justify-center z-[2000] animate-fadeIn p-4 overflow-hidden">
-          <div className="bg-white rounded-[3rem] shadow-2xl w-full max-w-4xl flex flex-col max-h-[90vh] relative animate-springUp border border-white">
+        <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-dark-900/80 backdrop-blur-xl animate-fade-in">
+          <div className="bg-white w-full max-w-4xl rounded-[3rem] shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-spring-up border border-white/20">
             
-            <div className="px-10 py-10 border-b border-slate-50 flex items-center justify-between shrink-0">
+            <div className="p-8 sm:p-10 border-b border-gray-100 flex items-center justify-between shrink-0 bg-gray-50/50">
                <div>
-                  <h2 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">Modify Identity</h2>
-                  <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mt-1 opacity-70">Secured Information Node</p>
+                  <h2 className="text-3xl font-black text-dark-900 uppercase tracking-tighter">Modify Profile</h2>
+                  <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mt-1">Official Citizen Update</p>
                </div>
-               <button onClick={() => !loading && setShowEditModal(false)} className="p-4 bg-slate-50 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-[1.5rem] transition-all group">
-                  <X className="w-6 h-6 group-hover:rotate-90 transition-transform duration-500" />
+               <button onClick={() => !loading && setShowEditModal(false)} className="p-3.5 bg-white text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-all shadow-sm">
+                  <X className="w-6 h-6" />
                </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-10 md:p-14 no-scrollbar">
+            <div className="flex-1 overflow-y-auto p-8 sm:p-14 custom-scrollbar">
               <form id="editProfileForm" onSubmit={handleSubmit} className="space-y-12">
                 <div className="flex flex-col lg:flex-row gap-16 items-start">
-                   <div className="flex flex-col items-center shrink-0 w-full lg:w-48">
-                      <div className="relative group cursor-pointer mb-6 transition-transform hover:scale-105 active:scale-95">
-                        <div className="w-48 h-48 rounded-[2.5rem] overflow-hidden bg-slate-50 border-8 border-white shadow-2xl ring-1 ring-slate-100">
-                          <img src={formData.avatar} className="w-full h-full object-cover" alt="avatar" />
-                        </div>
-                        <div className="absolute inset-0 bg-emerald-600/80 rounded-[2.5rem] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm">
-                          <Camera className="w-10 h-10 text-white animate-pulse" />
+                   
+                   {/* Avatar Upload Container */}
+                   <div className="flex flex-col items-center shrink-0 w-full lg:w-48 group">
+                      <div className="relative group cursor-pointer mb-6 transform group-hover:scale-105 transition-all">
+                        <div className="w-48 h-48 rounded-[3rem] overflow-hidden bg-gray-50 border-8 border-white shadow-2xl relative">
+                           <img src={formData.avatar} className="w-full h-full object-cover rounded-[2 rem]" alt="avatar" />
+                           <div className="absolute inset-0 bg-emerald-600/60 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <Camera className="w-10 h-10 text-white animate-bounce-slow" />
+                           </div>
                         </div>
                         <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={handleImageChange} />
                       </div>
+                      <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest text-center">Tap to change avatar</p>
                    </div>
 
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 flex-1 w-full">
+                   {/* Form Inputs Grid */}
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-1 w-full">
                       {[
-                        { lab: 'Full Name', name: 'name', type: 'text', placeholder: 'Enter Name' },
-                        { lab: 'Phone Number', name: 'phone', type: 'tel', placeholder: '+91' },
-                        { lab: 'Official Email', name: 'email', type: 'email', placeholder: 'Email Address' },
-                        { lab: 'Occupation', name: 'occupation', type: 'text', placeholder: 'Public Sector / Farmer' },
-                        { lab: 'Village Name', name: 'village', type: 'text', placeholder: 'Rampur' },
-                        { lab: 'Home Address', name: 'address', type: 'text', placeholder: 'Ward Details' },
+                        { lab: 'Full Official Name', name: 'name', type: 'text', icon: User },
+                        { lab: 'Phone Number', name: 'phone', type: 'tel', icon: Phone },
+                        { lab: 'Contact Email', name: 'email', type: 'email', icon: Mail },
+                        { lab: 'Primary Occupation', name: 'occupation', type: 'text', icon: Briefcase },
+                        { lab: 'Village Name', name: 'village', type: 'text', icon: MapPin },
+                        { lab: 'Resident Address', name: 'address', type: 'text', icon: Home },
                       ].map((input, k) => (
-                        <div key={k} className="space-y-3">
-                           <label className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-1">{input.lab}</label>
-                           <input
-                              {...input}
-                              value={formData[input.name]}
-                              onChange={handleChange}
-                              className="w-full px-8 py-5 rounded-2xl bg-slate-50 border border-transparent focus:bg-white focus:border-emerald-500 focus:ring-8 focus:ring-emerald-100/50 outline-none transition-all font-bold tracking-tight text-slate-900 shadow-inner text-lg"
-                           />
+                        <div key={k} className="space-y-2 group">
+                           <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">{input.lab}</label>
+                           <div className="relative">
+                              <div className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors">
+                                 <input.icon size={18} />
+                              </div>
+                              <input
+                                {...input}
+                                value={formData[input.name]}
+                                onChange={handleChange}
+                                className="w-full pl-14 pr-8 py-4.5 rounded-2xl bg-gray-50 border border-transparent focus:bg-white focus:border-emerald-500 focus:ring-8 focus:ring-emerald-100/50 outline-none transition-all font-bold text-dark-900 shadow-inner text-lg"
+                                placeholder={`Enter ${input.lab.split(' ').pop()}`}
+                              />
+                           </div>
                         </div>
                       ))}
-                      <div className="md:col-span-2 space-y-3 pt-4">
-                         <label className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-1">Identity Statement (Bio)</label>
+                      <div className="md:col-span-2 space-y-2 pt-4 group">
+                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Identity Bio / Commitment</label>
                          <textarea
                             name="bio"
                             value={formData.bio}
                             onChange={handleChange}
                             rows={4}
-                            className="w-full px-8 py-5 rounded-[1.5rem] bg-slate-50 border border-transparent focus:bg-white focus:border-emerald-500 focus:ring-8 focus:ring-emerald-100/50 outline-none transition-all font-bold tracking-tight text-slate-900 shadow-inner resize-none text-lg"
-                            placeholder="Briefly describe your community focus..."
+                            className="w-full px-8 py-5 rounded-3xl bg-gray-50 border border-transparent focus:bg-white focus:border-emerald-500 focus:ring-8 focus:ring-emerald-100/50 outline-none transition-all font-bold text-dark-900 shadow-inner resize-none text-lg"
+                            placeholder="Share your focus for the village community..."
                          />
                       </div>
                    </div>
@@ -442,53 +449,28 @@ const PeopleProfile = () => {
               </form>
             </div>
 
-            <div className="px-10 py-10 bg-slate-50/50 border-t border-slate-50 shrink-0 flex justify-end gap-6 items-center">
-               <button type="button" onClick={() => setShowEditModal(false)} className="px-10 py-5 rounded-[1.5rem] font-black text-slate-400 hover:text-slate-900 transition-colors uppercase tracking-widest text-xs">
-                  Discard Changes
+            <div className="p-8 bg-gray-50/80 border-t border-gray-100 shrink-0 flex justify-end gap-6 items-center">
+               <button 
+                 type="button" 
+                 onClick={() => setShowEditModal(false)} 
+                 className="px-8 py-4 font-black text-gray-400 hover:text-dark-900 transition-colors uppercase tracking-widest text-[10px]"
+               >
+                  Cancel
                </button>
-               <button form="editProfileForm" type="submit" disabled={loading} className="px-12 py-5 rounded-[1.5rem] font-black bg-slate-950 text-white hover:bg-emerald-600 shadow-2xl shadow-slate-900/10 active:scale-95 transition-all text-xs uppercase tracking-[0.2em] flex items-center gap-4 group">
-                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5 group-hover:scale-110 transition-transform" />}
-                  Finalize Identity
+               <button 
+                 form="editProfileForm" 
+                 type="submit" 
+                 disabled={loading} 
+                 className="px-10 py-5 bg-brand-dark text-white rounded-[1.5rem] font-black shadow-2xl active:scale-95 transition-all text-xs uppercase tracking-[0.2em] flex items-center gap-3 disabled:opacity-50"
+               >
+                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                  Finalize Changes
                </button>
             </div>
           </div>
         </div>
       )}
 
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-15px); }
-        }
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-        @keyframes springUp {
-          from { opacity: 0; transform: scale(0.95) translateY(40px); }
-          to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .animate-springUp {
-          animation: springUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeInUp {
-          animation: fadeInUp 0.8s ease-out forwards;
-        }
-        @keyframes bounceSlow {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-5px); }
-        }
-        .animate-bounce-slow {
-          animation: bounceSlow 3s ease-in-out infinite;
-        }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-400 { animation-delay: 0.4s; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      `}} />
       <BottomNavbar />
     </div>
   );

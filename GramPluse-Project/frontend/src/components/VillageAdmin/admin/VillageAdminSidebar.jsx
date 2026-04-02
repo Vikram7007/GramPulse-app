@@ -31,7 +31,7 @@ function VillageAdminSidebar({ activePanel, setActivePanel, adminName, adminPhon
       )}
 
       <div
-        className={`fixed top-0 bottom-0 left-0 z-[1002] md:z-[1000] w-[280px] bg-[#0C7779] text-white shadow-2xl border-r border-emerald-500/20 transform transition-transform duration-500 flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:top-0 md:h-screen md:pt-20`}
+        className={`fixed top-0 bottom-0 left-0 z-[1002] md:z-[1000] w-[280px] bg-[#0B1E1C] text-white shadow-2xl border-r border-emerald-500/20 transform transition-transform duration-500 flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:top-0 md:h-screen md:pt-20`}
       >
         <div className="relative flex-1 overflow-y-auto py-8 px-4 flex flex-col h-full custom-scrollbar">
           

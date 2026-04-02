@@ -86,7 +86,7 @@ function Sidebar({ isOpen, onClose }) {
       <div
         className={`
           fixed top-0 bottom-0 left-0 z-[1003]
-          w-[280px] bg-brand-dark text-white
+          w-[280px] bg-[#0B1E1C] text-white
           shadow-2xl border-r border-white/5
           transform transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1)
           flex flex-col

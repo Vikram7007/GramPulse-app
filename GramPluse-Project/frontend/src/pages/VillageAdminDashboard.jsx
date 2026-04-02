@@ -261,6 +261,7 @@ const VillageAdminDashboard = () => {
     total: issues.length + gramsevakCompletedIssues.length,
     active: issues.filter(i => i.status === 'in-progress' || i.status === 'pending').length,
     completed: gramsevakCompletedIssues.length + issues.filter(i => i.status === 'approved' || i.status === 'Completed').length,
+    rejected: issues.filter(i => i.status === 'rejected' || i.status === 'Rejected' || i.status === 'Issue').length,
     highPriority: issues.filter(i => i.priority === 'high').length
   };
 
@@ -361,12 +362,13 @@ const VillageAdminDashboard = () => {
               </section>
 
               {/* Metrics Grid */}
-              <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <section className="grid grid-cols-2 lg:grid-cols-5 gap-4">
                 {[
                   { label: "Reports", value: stats.total, icon: FileText, color: "text-blue-500", bg: "bg-blue-50/50" },
                   { label: "Solved", value: stats.completed, icon: CheckCircle, color: "text-emerald-500", bg: "bg-emerald-50/50" },
                   { label: "Pending", value: stats.active, icon: Clock, color: "text-amber-500", bg: "bg-amber-50/50" },
-                  { label: "Critical", value: stats.highPriority, icon: AlertTriangle, color: "text-rose-500", bg: "bg-rose-50/50" },
+                  { label: "Rejected", value: stats.rejected, icon: X, color: "text-rose-500", bg: "bg-rose-50/50" },
+                  { label: "Critical", value: stats.highPriority, icon: AlertTriangle, color: "text-rose-600", bg: "bg-rose-50/50" },
                 ].map((stat, idx) => (
                   <div key={idx} className="bg-white p-4 sm:p-6 rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:border-emerald-200 transition-all cursor-default">
                     <div className={`p-3 rounded-2xl ${stat.bg} ${stat.color} mb-3 group-hover:scale-110 transition-transform`}>
@@ -404,7 +406,7 @@ const VillageAdminDashboard = () => {
                     if (activeTab === 'pending') return i.status === 'pending';
                     if (activeTab === 'assigned') return i.status === 'in-progress';
                     if (activeTab === 'completed') return i.status === 'Completed' || i.status === 'approved';
-                    if (activeTab === 'rejected') return i.status === 'Issue' || i.status === 'rejected';
+                    if (activeTab === 'rejected') return i.status === 'Issue' || i.status === 'rejected' || i.status === 'Rejected';
                     return true;
                   }).length === 0 ? (
                     <div className="col-span-full bg-white rounded-4xl p-10 text-center border-2 border-dashed border-gray-100">
@@ -414,7 +416,7 @@ const VillageAdminDashboard = () => {
                     if (activeTab === 'pending') return i.status === 'pending';
                     if (activeTab === 'assigned') return i.status === 'in-progress';
                     if (activeTab === 'completed') return i.status === 'Completed' || i.status === 'approved';
-                    if (activeTab === 'rejected') return i.status === 'Issue' || i.status === 'rejected';
+                    if (activeTab === 'rejected') return i.status === 'Issue' || i.status === 'rejected' || i.status === 'Rejected';
                     return true;
                   }).map(issue => (
                     <div key={issue._id} className="mobile-card !p-4 flex flex-col group h-full">
